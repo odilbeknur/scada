@@ -11,19 +11,25 @@
     </head>
     <body>
         <div class="container-fluid p-2 bg-primary text-white text-center">
-            <h1>Users</h1>
+            <h1>Plants</h1>
         </div>
         <div class="container mt-5">
             <table class="table">
                 <thead>
                     <tr>
-                        <th>Name</th>
+                        <th>Id</th>
+                        <th>Plants</th>
+                        <th>Soil</th>
+                        <th>Soil</th>
                     </tr>
                 </thead>
                 <tbody>
                     {% for name in names %}
                     <tr>
-                        <td>{{ name.name }}</td>
+                        <td>{{ name.plant_id }}</td>
+                        <td>{{ name.name }}</td>                        
+                        <td>{{ name.pin_soil }}</td>
+                        <td>{{ name.capacity }}</td>
                     </tr>
                     {% endfor %}    
                 </tbody>

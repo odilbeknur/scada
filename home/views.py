@@ -7,7 +7,14 @@ from django.db.models import Q
 from django.http import HttpResponse
 import requests
 
-
+def names(request):
+    #pull data from third party rest api
+    response = requests.get('http://192.168.100.13:8000/api/v2/get/all/plant')
+    #convert reponse data into json
+    names = response.json()
+    #print(names)
+    return render(request, "api.html", {'names': names})
+    pass
 
 def Home(request):
     query = Category.objects.annotate(count=Count('category'))

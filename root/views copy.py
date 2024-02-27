@@ -8,14 +8,7 @@ import random
 from django.db.models import Count, Q
 
 
-def names(request):
-    #pull data from third party rest api
-    response = requests.get('http://70.70.0.68:8000/api/v2/get/all/plant')
-    #convert reponse data into json
-    names = response.json()
-    #print(names)
-    return render(request, "admin-index.html", {'names': names})
-    pass
+
 
 
 def Admin_index(request):
