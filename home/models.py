@@ -42,4 +42,9 @@ class Plant(models.Model):
     def __str__(self) -> str:
         return str(self.inventar_number)
 
-  
+class Watering(models.Model):
+    plant_id = models.CharField(max_length=100)
+    w_status = models.BooleanField()
+
+    def __str__(self) -> str:
+        return self.name
