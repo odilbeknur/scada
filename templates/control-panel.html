@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Water Irrigation System Control Panel</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        /* CSS styles */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+        }
+        .control-panel {
+            background-color: #fff;
+            border: 2px solid #ccc;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .control-panel h1 {
+            margin-bottom: 20px;
+        }
+        canvas {
+            margin-bottom: 20px;
+            width: 300px; /* Adjust width */
+            height: 200px; /* Adjust height */
+        }
+        .control-input {
+            margin-bottom: 10px;
+            width: 200px;
+            padding: 8px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .control-button {
+            padding: 10px 20px;
+            margin-top: 10px;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .control-button:hover {
+            background-color: #f0f0f0;
+        }
+    </style>
+</head>
+<body>
+    <div class="control-panel">
+        <h1>Water Irrigation System Control Panel</h1>
+        <canvas id="soilMoistureChart" width="300" height="200"></canvas> <!-- Adjust width and height -->
+        <input type="time" class="control-input" id="startTime" placeholder="Start Time">
+        <input type="number" class="control-input" id="duration" placeholder="Duration (minutes)">
+        <button class="control-button" id="startButton">Start Irrigation</button>
+        <button class="control-button" id="stopButton">Stop Irrigation</button>
+    </div>
+
+    <script>
+        // JavaScript code
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize Chart.js for soil moisture pie chart
+            var ctx = document.getElementById('soilMoistureChart').getContext('2d');
+            var soilMoistureChart = new Chart(ctx, {
+                type: 'pie',
+                data: {
+                    labels: ['Wet', 'Dry'],
+                    datasets: [{
+                        data: [50, 50], // Placeholder data (you can replace with actual data)
+                        backgroundColor: [
+                            'rgba(75, 192, 192, 0.2)',
+                            'rgba(255, 99, 132, 0.2)'
+                        ],
+                        borderColor: [
+                            'rgba(75, 192, 192, 1)',
+                            'rgba(255, 99, 132, 1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                }
+            });
+
+            // Event listener for the start irrigation button
+            document.getElementById('startButton').addEventListener('click', function() {
+                // Read input values
+                var startTime = document.getElementById('startTime').value;
+                var duration = document.getElementById('duration').value;
+
+                // Validate input
+                if (startTime === '' || duration === '') {
+                    alert('Please fill in all fields.');
+                    return;
+                }
+
+                // Simulate starting irrigation with provided parameters (you can add your logic here)
+                console.log('Irrigation started with the following parameters:');
+                console.log('Start Time:', startTime);
+                console.log('Duration:', duration, 'minutes');
+            });
+
+            // Event listener for the stop irrigation button
+            document.getElementById('stopButton').addEventListener('click', function() {
+                // Simulate stopping irrigation (you can add your logic here)
+                console.log('Irrigation stopped');
+            });
+        });
+    </script>
+</body>
+</html>

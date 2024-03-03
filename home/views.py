@@ -7,6 +7,8 @@ from django.db.models import Q
 from django.http import HttpResponse
 import requests
 
+from .forms import MyForm
+
 def names(request):
     #pull data from third party rest api
     response = requests.get('http://10.40.9.25:8001/api/v2/get/all/plant')
@@ -16,18 +18,33 @@ def names(request):
     return render(request, "api.html", {'names': names})
     pass
 
-def watering(request):
-    model = Category
-    form_class = CategoryCreateForm
-    template_name = 'admin/category-create.html'
-    login_url = 'login'
-    success_url = reverse_lazy('category-create')
-    
-    def form_valid(self, form):
-        form.instance.author = self.request.user
-        return super().form_valid(form)
-    r
-#http://10.40.9.25:8001/watering/{{name_p}}?{{name}}
+def water(request):
+    if request.method == 'POST':
+        form = MyForm(request.POST)
+        if form.is_valid():
+            # Get data from the form
+            water = form.cleaned_data['name_p']
+            water = form.cleaned_data['amount']
+            # Convert the status to lowercase for consistency
+            status = status.lower()
+            # Construct the URL based on the form input
+            url = f'http://10.40.9.25:8001/watering/{name_p}?{amount}'
+            
+            # Send POST request to FastAPI
+            payload = {'status': status}  # Adjust payload as per your FastAPI endpoint
+            response = requests.post(url, json=payload)
+
+            # Handle response
+            if response.status_code == 200:
+                # Request successful
+                return render(request, 'api.html')
+            else:
+                # Request failed
+                return render(request, 'error.html')
+    else:
+        form = MyForm()
+
+    return render(request, 'api.html', {'form': form})
 
 def Home(request):
     query = Category.objects.annotate(count=Count('category'))

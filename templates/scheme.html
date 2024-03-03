@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plant Watering System Electric Scheme</title>
+    <style>
+        /* CSS styles */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+        }
+        .container {
+            display: flex;
+            align-items: center;
+        }
+        .device {
+            width: 100px;
+            height: 100px;
+            border: 2px solid #333; /* Adjust border width */
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 20px;
+            text-decoration: none; /* Remove default underline */
+            color: rgb(255, 255, 255); /* Text color */
+            font-weight: bold; /* Bold font */
+            font-size: 20px; /* Larger font size */
+            letter-spacing: 1px; /* Increased letter spacing */
+            text-transform: uppercase; /* Uppercase text */
+            transition: background-color 0.3s; /* Smooth transition */
+        }
+        .device:hover {
+            background-color: rgba(60, 143, 108, 0.418); /* Light gray on hover */
+        }
+
+        .esp32 {
+            background-color: #3168bb;
+            border-color: #6495ED; /* CornflowerBlue */
+
+        }
+        .relay {
+            border-color: #bded64; /* CornflowerBlue */
+            background-color: #c7ad17; /* SkyBlue */
+
+        }
+        .pump {
+            border-color: #ff000d; /* OrangeRed */
+            background-color: #ff0000; /* Red */
+
+        }
+        .pump.active {
+            background-image: linear-gradient(to right, #2ad32a, #3de43d); /* Gradient green */
+            border-color: #00ffb3; /* OrangeRed */
+        }
+    </style>
+</head>
+<body>
+    <form id="controlForm">
+        <div class="container">
+            <a href="#" class="device esp32">ESP32</a>
+            <a href="#" class="device relay">Relay</a>
+            <a href="#" class="device pump">Pump</a>
+        </div>
+        <input type="hidden" id="pumpState" name="pumpState" value="false">
+    </form>
+
+    <script>
+        // JavaScript code
+        document.addEventListener('DOMContentLoaded', function() {
+            var pumpCircle = document.querySelector('.pump');
+
+            // Check pump state on page load
+            if (document.getElementById('pumpState').value === 'true') {
+                pumpCircle.classList.add('active');
+            }
+
+            document.querySelectorAll('.device').forEach(function(device) {
+                device.addEventListener('click', function() {
+                    // Toggle 'active' class on the clicked device if it's the pump
+                    if (device.classList.contains('pump')) {
+                        device.classList.toggle('active');
+                        document.getElementById('pumpState').value = device.classList.contains('active') ? 'true' : 'false';
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

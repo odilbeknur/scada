@@ -36,10 +36,11 @@
                 </tbody>
             </table>
 
-            <form method="post">
+            <form method="post" action="/water/">
+              {% csrf_token %}
                 <div class="form-group">
                     <label for="customRange3" class="form-label">Choose plant</label> 
-                    <select class="form-select" aria-label="Default select example">
+                    <select class="form-select" aria-label="Default select example" name="plant">
                         <option selected>Open this select menu</option>
                         {% for name in names %}
                             <option value="{{ name.name_p }}">{{ name.name }}</option>
@@ -48,7 +49,7 @@
                 </div>
                 <div class="form-group pt-10" style="padding-top:10px;">
                     <label for="customRange3" class="form-label">Water amount (ml)</label> 
-                    <input type="range" class="form-range" min="1" max="10000" step="1" id="customRange3" oninput="this.nextElementSibling.value = this.value">
+                    <input name="amount" type="range" class="form-range" min="1" max="10000" step="1" id="customRange3" oninput="this.nextElementSibling.value = this.value">
                     <output></output>
                 </div>
                 <button type="submit" class="btn btn-primary">Pour</button>

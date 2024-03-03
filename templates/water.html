@@ -1,0 +1,24 @@
+<!-- my_template.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Form</title>
+</head>
+<body>
+    <h1>My Form</h1>
+    <form method="post" action="/water/">
+        {% csrf_token %}
+        <label for="id_status">Status:</label>
+        <select name="status" id="id_status">
+            {% for value, label in form.fields.status.choices %}
+                <option value="{{ value }}">{{ label }}</option>
+            {% endfor %}
+        </select>
+        <br><br>
+        <button type="submit">Submit</button>
+    </form>
+</body>
+</html>

@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ESP32</title>
+    <style>
+        /* CSS styles */
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height: 100vh;
+            justify-content: center;
+        }
+
+        .status {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .status-indicator {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            margin: 0 5px;
+        }
+
+        .power-indicator {
+            background-color: green;
+        }
+
+        .wifi-indicator {
+            background-color: blue;
+        }
+
+        .esp32 {
+            width: 250px;
+            height: 400px;
+            background-color: #36a0a07c;
+            border: 2px solid rgb(27, 95, 112);
+            border-radius: 10px;
+            position: relative;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            position: relative; /* Added */
+        }
+        .left-pins {
+            width: 50%;
+            padding-left: 10px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            position: absolute; /* Position pins absolutely */
+            top: 50%;
+            left: 0;
+            transform: translateY(-50%); /* Center vertically */
+        }
+        .right-pins {
+            display: flex;
+            flex-direction: column;
+            padding-right: 10px;
+            justify-content: space-between;
+            position: absolute; /* Position pins absolutely */
+            top: 50%;
+            right: 0;
+            transform: translateY(-50%); /* Center vertically */
+        }
+        .pin {
+            width: 15px;
+            height: 15px;
+            background-color: #333;
+            border-radius: 50%;
+            position: relative;
+            cursor: pointer;
+            z-index: 1; /* Set z-index to ensure pins are above the hover content */
+            margin: 5px 0; /* Add margin to create space between pins */
+        }
+        .pin:hover::after {
+            content: attr(data-pin-number) ": " attr(data-status); /* Show pin number and status on hover */
+            position: absolute;
+            top: 50%;
+            left: calc(100% + 10px); /* Position to the right of the pin */
+            transform: translateY(-50%);
+            background-color: rgba(0, 0, 0, 0.8);
+            color: #fff;
+            padding: 10px; /* Increased padding */
+            border-radius: 5px;
+            font-size: 14px;
+            white-space: nowrap; /* Prevent content from wrapping */
+        }
+        .active {
+            background-color: green;
+        }
+        .inactive {
+            background-color: red;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="esp32">
+            <div class="status">
+                <div class="status-indicator power-indicator"></div>
+                Power
+                <div class="status-indicator wifi-indicator"></div>
+                WiFi
+            </div>
+            <!-- Left pins -->
+            <div class="left-pins"></div>
+            <!-- Right pins -->
+            <div class="right-pins"></div>
+        </div>
+    </div>
+    <script>
+        // JavaScript code to generate pins dynamically with pin number and status
+        const leftPinsContainer = document.querySelector('.left-pins');
+        const rightPinsContainer = document.querySelector('.right-pins');
+        const numPins = 15;
+        const pinSize = 20; // Size of each pin
+
+        // Function to generate random boolean (true/false)
+        function getRandomStatus() {
+            return Math.random() < 0.5 ? 'Active' : 'Inactive';
+        }
+
+        // Generate pins for the left side with pin number and status
+        for (let i = 0; i < numPins; i++) {
+            const pin = document.createElement('div');
+            pin.classList.add('pin');
+            pin.dataset.pinNumber = i + 1; // Set pin number using data attribute
+            pin.dataset.status = getRandomStatus(); // Set random status using data attribute
+            pin.classList.add(pin.dataset.status.toLowerCase()); // Add class based on status
+            leftPinsContainer.appendChild(pin);
+        }
+
+        // Generate pins for the right side with pin number and status
+        for (let i = 0; i < numPins; i++) {
+            const pin = document.createElement('div');
+            pin.classList.add('pin');
+            pin.dataset.pinNumber = i + 1 + numPins; // Set pin number using data attribute
+            pin.dataset.status = getRandomStatus(); // Set random status using data attribute
+            pin.classList.add(pin.dataset.status.toLowerCase()); // Add class based on status
+            rightPinsContainer.appendChild(pin);
+        }
+
+        // Update power and WiFi status
+        const powerIndicator = document.querySelector('.power-indicator');
+        const wifiIndicator = document.querySelector('.wifi-indicator');
+
+        // Simulate changing power and WiFi status (for demonstration purposes)
+        setInterval(() => {
+            powerIndicator.style.backgroundColor = Math.random() < 0.5 ? 'green' : 'red';
+            wifiIndicator.style.backgroundColor = Math.random() < 0.5 ? 'blue' : 'grey';
+        }, 3000); // Update every 3 seconds
+    </script>
+</body>
+</html>
