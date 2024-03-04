@@ -16,23 +16,31 @@ def names(request):
     names = response.json()
     #print(names)
     return render(request, "api.html", {'names': names})
-    pass
+    pwater
+
+from django.shortcuts import render
+from django import forms
+import requests
 
 def water(request):
     if request.method == 'POST':
+        class MyForm(forms.Form):
+            plant = forms.CharField(max_length=100)
+            amount = forms.IntegerField()
+        
         form = MyForm(request.POST)
         if form.is_valid():
             # Get data from the form
-            water = form.cleaned_data['name_p']
-            water = form.cleaned_data['amount']
-            # Convert the status to lowercase for consistency
-            status = status.lower()
+            plant = form.cleaned_data['plant']
+            amount = form.cleaned_data['amount']
+            
             # Construct the URL based on the form input
-            url = f'http://10.40.9.25:8001/watering/{name_p}?{amount}'
+            url = f'http://10.40.9.25:8001/watering/{plant}?water={amount}'
             
             # Send POST request to FastAPI
-            payload = {'status': status}  # Adjust payload as per your FastAPI endpoint
-            response = requests.post(url, json=payload)
+            response = requests.post(url)
+            print(url)
+            print(response.status_code)
 
             # Handle response
             if response.status_code == 200:
@@ -44,7 +52,8 @@ def water(request):
     else:
         form = MyForm()
 
-    return render(request, 'api.html', {'form': form})
+    return render(request, 'water_form.html', {'form': form})
+
 
 def Home(request):
     query = Category.objects.annotate(count=Count('category'))
