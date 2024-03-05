@@ -3,9 +3,10 @@ from django.views.generic import ListView
 from .models import Category,Plant,Watering
 from django.db.models import Count
 from django.db.models import Q
-
+import django_crontab
 from django.http import HttpResponse
 import requests
+
 
 from .forms import MyForm
 
@@ -55,22 +56,9 @@ def water(request):
     return render(request, 'water_form.html', {'form': form})
 # cron.py
 
-from django_cron import CronJobBase, Schedule
-from .forms import MyForm  # Import your form class here
-import requests
-
-
-class WaterPlantCronJob(CronJobBase):
-    RUN_EVERY_MINS = 5  # Run every 5 minutes
-
-    schedule = Schedule(run_every_mins=RUN_EVERY_MINS)
-    code = 'myapp.water_plant_cron_job'  # A unique code for your cron job
-
-    def do(self):
-        # Your watering logic goes here
-        plant = 'plant_name'  # Replace with the actual plant name
-        amount = 10  # Replace with the amount to water
-        url = f'http://10.40.9.25:8001/watering/{plant}?water={amount}'
+def my_cron_job():
+        
+        url = f'http://10.40.9.25:8001/watering/1?water=200'
         
         response = requests.post(url)
         print(url)
@@ -80,6 +68,9 @@ class WaterPlantCronJob(CronJobBase):
             print("Plant watered successfully")
         else:
             print("Error watering plant")
+
+
+   
 
 
 def Home(request):
