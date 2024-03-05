@@ -6,19 +6,17 @@ from django.db.models import Q
 import django_crontab
 from django.http import HttpResponse
 import requests
+from django import forms
 
 
 from .forms import MyForm
 
 def names(request):
-    #pull data from third party rest api
     response = requests.get('http://10.40.9.25:8001/api/v2/get/all/plant')
-    #convert reponse data into json
-    names = response.json()
-    #print(names)
-    return render(request, "api.html", {'names': names})
-    pwater
-
+    # Convert response data into JSON
+    plants = response.json()
+    # Return JSON response
+    return JsonResponse(plants, safe=False)
 
 from django.http import JsonResponse
 

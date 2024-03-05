@@ -81,6 +81,42 @@
                   alert('An error occurred while watering.');
               });
         });
+
+
+        function refreshPlantData() {
+          fetch('/api/')
+              .then(response => response.json())
+              .then(data => {
+                  updatePlantTable(data);
+              })
+              .catch(error => {
+                  console.error('Error:', error);
+        });
+}
+
+        function updatePlantTable(data) {
+            const tableBody = document.getElementById('plant-table-body');
+            tableBody.innerHTML = ''; 
+
+            data.forEach(plant => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${plant.plant_id}</td>
+                    <td>${plant.name}</td>
+                    <td>${plant.pin_soil}</td>
+                    <td>${plant.capacity}</td>
+                `;
+                tableBody.appendChild(row);
+            });
+        }
+
+        // Call refreshPlantData when the page loads
+        document.addEventListener('DOMContentLoaded', () => {
+            refreshPlantData();
+        });
+
+
+
     </script>
 
 <style>
