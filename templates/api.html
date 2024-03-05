@@ -16,26 +16,26 @@
             <h1>Plants</h1>
         </div>
         <div class="container mt-5">
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>Id</th>
-                        <th>Plants</th>
-                        <th>Soil</th>
-                        <th>Soil</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for name in names %}
-                    <tr>
-                        <td>{{ name.plant_id }}</td>
-                        <td>{{ name.name }}</td>                        
-                        <td>{{ name.pin_soil }}</td>
-                        <td>{{ name.capacity }}</td>
-                    </tr>
-                    {% endfor %}    
-                </tbody>
-            </table>
+          <table class="table" id="plantTable">
+             <thead>
+                  <tr>
+                      <th>Id</th>
+                      <th>Plants</th>
+                      <th>Soil</th>
+                      <th>Soil</th>
+                  </tr>
+              </thead>
+              <tbody>
+                  {% for name in names %}
+                  <tr>
+                      <td>{{ name.plant_id }}</td>
+                      <td>{{ name.name }}</td>                        
+                      <td>{{ name.pin_soil }}</td>
+                      <td>{{ name.capacity }}</td>
+                  </tr>
+                  {% endfor %}    
+              </tbody>
+          </table>
 
             <form method="post" id="waterForm">
               {% csrf_token %}
@@ -83,40 +83,32 @@
         });
 
 
-        function refreshPlantData() {
-          fetch('/api/')
-              .then(response => response.json())
-              .then(data => {
-                  updatePlantTable(data);
-              })
-              .catch(error => {
-                  console.error('Error:', error);
-        });
-}
+      // Function to update table content using AJAX
+        function updateTable() {
+            fetch('/api/names')
+                .then(response => response.json())
+                .then(data => {
+                    // Clear existing table content
+                    document.getElementById('plantTable').querySelector('tbody').innerHTML = '';
 
-        function updatePlantTable(data) {
-            const tableBody = document.getElementById('plant-table-body');
-            tableBody.innerHTML = ''; 
-
-            data.forEach(plant => {
-                const row = document.createElement('tr');
-                row.innerHTML = `
-                    <td>${plant.plant_id}</td>
-                    <td>${plant.name}</td>
-                    <td>${plant.pin_soil}</td>
-                    <td>${plant.capacity}</td>
-                `;
-                tableBody.appendChild(row);
-            });
+                    // Populate table with new data
+                    data.forEach(name => {
+                        const row = `
+                            <tr>
+                                <td>${name.plant_id}</td>
+                                <td>${name.name}</td>
+                                <td>${name.pin_soil}</td>
+                                <td>${name.capacity}</td>
+                            </tr>
+                        `;
+                        document.getElementById('plantTable').querySelector('tbody').innerHTML += row;
+                    });
+                })
+                .catch(error => console.error('Error fetching data:', error));
         }
 
-        // Call refreshPlantData when the page loads
-        document.addEventListener('DOMContentLoaded', () => {
-            refreshPlantData();
-        });
-
-
-
+        // Call the updateTable function when the page loads
+        window.addEventListener('load', updateTable);
     </script>
 
 <style>
