@@ -53,6 +53,33 @@ def water(request):
         form = MyForm()
 
     return render(request, 'water_form.html', {'form': form})
+# cron.py
+
+from django_cron import CronJobBase, Schedule
+from .forms import MyForm  # Import your form class here
+import requests
+
+
+class WaterPlantCronJob(CronJobBase):
+    RUN_EVERY_MINS = 5  # Run every 5 minutes
+
+    schedule = Schedule(run_every_mins=RUN_EVERY_MINS)
+    code = 'myapp.water_plant_cron_job'  # A unique code for your cron job
+
+    def do(self):
+        # Your watering logic goes here
+        plant = 'plant_name'  # Replace with the actual plant name
+        amount = 10  # Replace with the amount to water
+        url = f'http://10.40.9.25:8001/watering/{plant}?water={amount}'
+        
+        response = requests.post(url)
+        print(url)
+        print(response.status_code)
+
+        if response.status_code == 200:
+            print("Plant watered successfully")
+        else:
+            print("Error watering plant")
 
 
 def Home(request):
