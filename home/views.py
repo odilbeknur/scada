@@ -19,9 +19,20 @@ def names(request):
     return render(request, "api.html", {'names': names})
     pwater
 
-from django.shortcuts import render
-from django import forms
-import requests
+
+from django.http import JsonResponse
+
+def water(request):
+    if request.method == 'POST':
+        # Process form data and send POST request to FastAPI as before
+        
+        if response.status_code == 200:
+            return JsonResponse({'success': True})  # Return JSON response indicating success
+        else:
+            return JsonResponse({'success': False})  # Return JSON response indicating failure
+    else:
+        return JsonResponse({'error': 'Method not allowed'}, status=405)  # Return JSON response for invalid method
+
 
 def water(request):
     if request.method == 'POST':
@@ -45,11 +56,9 @@ def water(request):
 
             # Handle response
             if response.status_code == 200:
-                # Request successful
-                return render(request, 'api.html')
+                return JsonResponse({'success': True})  # Return JSON response indicating success
             else:
-                # Request failed
-                return render(request, 'error.html')
+                return JsonResponse({'success': False})  # Return JSON response indicating failure
     else:
         form = MyForm()
 
