@@ -15,19 +15,18 @@ class CategoryCreateForm(forms.ModelForm):
 class ResponsibleCreateForm(forms.ModelForm):
     class Meta:
         model = Responsible
-        fields = ['fullname', 'description']
+        fields = ['fullname', 'position', 'image']
         labels = {
             'fullname': 'Ф.И.О. ответственного',
-            'description': 'Коментарии',
+            'position': 'Коментарии',
         }
 
 class ModelCreateForm(forms.ModelForm):
     class Meta:
         model = Model
-        fields = ['name', 'description', 'image']
+        fields = ['name', 'description']
         labels = {
             'name': 'Модель ',
-            'image': 'Модель (фото) ',
             'description': 'Коментарии ',
         }
 

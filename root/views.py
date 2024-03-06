@@ -6,25 +6,35 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from .forms import CategoryCreateForm, EquipmentCreateForm, ProductUpdateForm, ResponsibleCreateForm, ModelCreateForm, ProductDetailUpdateForm
 import random
 from django.db.models import Count, Q
+from django.contrib import messages
+from django.contrib.messages.views import SuccessMessageMixin
 
 def Admin_index(request):
-    categories = Category.objects.annotate(count=Count('category'))
+    categories = Plant.objects.annotate(count=Count('plant_num'))
     return render(request, 'admin/admin-index.html', {'queryset': categories})
 
 def Admin_device(request):
     models = Model.objects.annotate(count=Count('name'))
     return render(request, 'admin/admin-device.html', {'queryset': models})
 
-class CategoryCreateView(LoginRequiredMixin, CreateView):
+from django.contrib import messages
+
+class CategoryCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
     model = Category
     form_class = CategoryCreateForm
     template_name = 'admin/category-create.html'
     login_url = 'login'
     success_url = reverse_lazy('category-create')
+    success_message = "Комната успешно добавлена"
 
     def form_valid(self, form):
         form.instance.author = self.request.user
-        return super().form_valid(form)
+        try:
+            return super().form_valid(form)
+        except Exception as e:
+            messages.error(self.request, f'Error: {e}')
+            return self.form_invalid(form)
+
 
 class ResponsibleCreateView(LoginRequiredMixin, CreateView):
     model = Responsible

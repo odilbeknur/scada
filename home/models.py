@@ -5,7 +5,7 @@ from django.core.files import File
 
 class Category(models.Model):
     name = models.CharField(max_length=100)
-    image = models.ImageField(upload_to='static/images')
+    image = models.ImageField(upload_to='static/images/rooms')
 
     def __str__(self) -> str:
         return self.name
@@ -14,33 +14,36 @@ class Category(models.Model):
 class Model(models.Model):
     name = models.CharField(max_length=100)
     description = models.TextField()
-    image = models.ImageField(upload_to='static/images')
 
     def __str__(self) -> str:
         return self.name
 
 class Responsible(models.Model):
     fullname = models.CharField(max_length=100)
-    description = models.TextField()
+    position = models.TextField(max_length=100, blank=True)    
+    image = models.ImageField(upload_to='static/images/responsible', null=True)
 
     def __str__(self) -> str:
         return self.fullname
 
 class Plant(models.Model):
-    category_id = models.ForeignKey(Category, related_name='category', on_delete=models.PROTECT, blank=True)
-    room_number = models.CharField(max_length=4)
-    inventar_number = models.IntegerField(unique=True, blank=True)
-    model_id = models.ForeignKey(Model, on_delete=models.PROTECT, blank=True)
-    responsible_id = models.ForeignKey(Responsible, on_delete=models.PROTECT)
-    processor = models.CharField(max_length=70, blank=True)
-    memory = models.CharField(max_length=70, blank=True)
-    mac_address = models.CharField(max_length=50, blank=True)
-    ip_address = models.CharField(max_length=50, blank=True)
+    platn_room = models.ForeignKey(Category, related_name='category', on_delete=models.PROTECT, blank=True)
+    plant_name = models.CharField(max_length=70, blank=True)
+    plant_image = models.ImageField(upload_to='static/images/plants', null=True)
+    plant_num = models.CharField(max_length=70, blank=True)
+    capacity = models.CharField(max_length=70, blank=True)
+
+    soil_value = models.CharField(max_length=70, blank=True)
+    soilpin_num =  models.CharField(max_length=70, blank=True)
+    soilpin_status =  models.CharField(max_length=70, null=True, default='Не в сети')
+    
+    pomp_pin = models.CharField(max_length=70, blank=True)
+    pomp_status = models.CharField(max_length=70, null=True, default='Не в сети')
+
     description = models.TextField()
-    status = models.CharField(max_length=40, null=True, default='В сети')
 
     def __str__(self) -> str:
-        return str(self.inventar_number)
+        return str(self.plant_num)
 
 class Watering(models.Model):
     plant_id = models.CharField(max_length=100)

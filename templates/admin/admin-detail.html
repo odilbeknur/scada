@@ -1,247 +1,590 @@
 {% load static %}
 <!DOCTYPE html>
-<html lang="en">
 
-<head>
-  <!-- Required meta tags -->
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <title>Admin</title>
-  <!-- plugins:css -->
-  <link rel="stylesheet" href="{% static 'admin/vendors/feather/feather.css' %}">
-  <link rel="stylesheet" href="{% static 'admin/vendors/ti-icons/css/themify-icons.css' %}">
-  <!-- endinject -->
-  <!-- Plugin css for this page -->
-  <link rel="stylesheet" href="{% static 'admin/vendors/datatables.net-bs4/dataTables.bootstrap4.css' %}">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-  <!-- End plugin css for this page -->
-  <!-- inject:css -->
-  <link rel="stylesheet" href="{% static 'admin/css/style.css' %}">
-  <!-- endinject -->
-</head>
-<body>
-  <div class="container-scroller">
-    <!-- partial:partials/_navbar.html -->
-    <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
-      <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
-        <a class="navbar-brand brand-logo mr-5" href="/administration/admin-index"><img src="{% static 'logo.png' %}" class="mr-2" alt="ADMIN"/></a>
-        <!--<a class="navbar-brand brand-logo-mini" href="index.html"><img src="images/logo-mini.svg" alt="ADMIN"/></a>-->
-      </div>
-      <div class="navbar-menu-wrapper d-flex align-items-center justify-content-end">
-        <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-toggle="minimize">
-          <span class="icon-menu"></span>
-        </button>
-        <ul class="navbar-nav mr-lg-2">
-          <li class="nav-item nav-search d-none d-lg-block">
-            <form action="{% url 'admin-search' %}" method="get">
-                <div class="input-group">
-                    <input type="text" class="form-control" id="navbar-search-input" name="search" placeholder="Поиск по идентификационному номеру" aria-label="search" aria-describedby="search" required>
-                    <div class="input-group-prepend hover-cursor" id="navbar-search-icon">                   
-                        <button type="submit" class="search-btn btn-submit"><i class="fa fa-search"></i></button>
-                    </div>
-                </div>
-            </form>   
-          </li>
-        </ul>
-        <ul class="navbar-nav navbar-nav-right">
-          {% if request.user.is_staff %}
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" id="notificationDropdown" href="#" data-toggle="dropdown">
-              <i class="ti-settings mx-0"></i>
-              <span class="count"></span>
+<html
+  lang="en"
+  class="light-style layout-menu-fixed layout-compact"
+  dir="ltr"
+  data-theme="theme-default"
+  data-template="vertical-menu-template-free">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+
+    <title>Plant SCADA</title>
+
+    <meta name="description" content="" />
+
+    <!-- Favicon -->
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&ampdisplay=swap"
+      rel="stylesheet" />
+
+    <link rel="stylesheet" href="{% static 'admin/vendor/fonts/materialdesignicons.css' %}" />
+
+
+    <!-- Core CSS -->
+    <link rel="stylesheet" href="{% static 'admin/vendor/css/core.css' %}" class="template-customizer-core-css" />
+    <link rel="stylesheet" href="{% static 'admin/vendor/css/theme-default.css' %}" class="template-customizer-theme-css" />
+    <link rel="stylesheet" href="{% static 'admin/css/demo.css' %}" />
+
+    <!-- Helpers -->
+    <script src="{% static 'admin/vendor/js/helpers.js' %}"></script>
+    <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
+    <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
+    <script src="{% static 'admin/js/config.js' %}"></script>
+  </head>
+
+  <body>
+    <!-- Layout wrapper -->
+    <div class="layout-wrapper layout-content-navbar">
+      <div class="layout-container">
+        <!-- Menu -->
+
+        <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
+          <div class="app-brand demo">
+            <a href="index.html" class="app-brand-link">
+              <span class="app-brand-logo demo me-1">
+                <span style="color: var(--bs-primary)">
+                 
+                </span>
+              </span>
+              <span class="app-brand-text demo menu-text fw-semibold ms-2" style="color:#3ed89d">PLANTS CONTROL</span>
             </a>
-            <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list" aria-labelledby="notificationDropdown">
-              <a class="dropdown-item preview-item" href="{% url 'category-create' %}">
-                <div class="preview-thumbnail">
-                  <div class="preview-icon bg-success">
-                    <i class="ti-plus mx-0"></i>                      
-                  </div>
-                </div>
-                <div class="preview-item-content">
-                  <h6 class="preview-subject font-weight-normal">Категории</h6>
-                </div>
-              </a>
-              <a class="dropdown-item preview-item" href="{% url 'responsible-create' %}">
-                <div class="preview-thumbnail">
-                  <div class="preview-icon bg-warning">
-                    <i class="ti-plus mx-0"></i>
-                  </div>
-                </div>
-                <div class="preview-item-content">
-                  <h6 class="preview-subject font-weight-normal">Ответственные</h6>
-                </div>
-              </a>
-              <a class="dropdown-item preview-item" href="{% url 'model-create' %}">
-                <div class="preview-thumbnail">
-                  <div class="preview-icon bg-info">
-                    <i class="ti-plus mx-0"></i>
-                  </div>
-                </div>
-                <div class="preview-item-content">
-                  <h6 class="preview-subject font-weight-normal">Модели</h6>
-                </div>
-              </a>              
-            </div>
-          </li>
-          {% endif %}
-          <li class="nav-item nav-profile dropdown">
-            <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" id="profileDropdown">
-              <img src="{% static '/admin/images/faces/face28.jpg' %}" alt="profile"/>
+
+            <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto">
+              <i class="mdi menu-toggle-icon d-xl-block align-middle mdi-20px"></i>
             </a>
-            
-            <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="profileDropdown">
-             
-              <a class="dropdown-item" href="{% url 'admin-index' %}">
-                <i class="ti-home text-primary"></i>
-                Главная
-              </a>
-              <form class="dropdown-item"action="{% url 'logout' %}" method="post">
-                {% csrf_token %}
-                <i class="ti-power-off text-primary"></i>
-                <button type="submit" style = "background:none; border:none">Выйти</button>
-              </form>
-            </div>
-          </li>
-        </ul>
-      </div>
-    </nav>
-    <!-- partial -->
-    <div class="container-fluid page-body-wrapper">
-      <!-- partial -->
-      <!-- partial:partials/_sidebar.html -->
-      <nav class="sidebar sidebar-offcanvas" id="sidebar">
-        <ul class="nav">
-            {% for m in query %}
-            <li>
-                <img src="{{ m.category_id.image.url }}" alt="" style="width:100%; height:auto;">
+          </div>
+
+          <div class="menu-inner-shadow"></div>
+
+          <ul class="menu-inner py-1">
+            <!-- Dashboards -->
+            <li class="menu-item active">
+              <a href="javascript:void(0);" class="menu-link">
+                <i class="menu-icon tf-icons mdi mdi-view-dashboard-variant"></i>
+                <div>Панель</div>
+              </a>             
             </li>
-            {% endfor %}
-            <li class="nav-item active">
-                <a class="nav-link" href="{% url 'admin-index' %}">
-                  <i class="icon-arrow-left  menu-icon"></i>
-                  <span class="menu-title">Назад</span>
-                </a>
-              </li>  
-          <li class="nav-item">
-            <a class="nav-link" href="/administration/admin-index">
-              <i class="icon-grid menu-icon"></i>
-              <span class="menu-title">Главная</span>
-            </a>
-          </li>
-        </ul>
-      </nav>
-       <!-- partial -->
-       <div class="main-panel">
-        <div class="content-wrapper">
-            {% for m in query %}
-            <div class="row">
 
-                <div class="col-md-4 grid-margin stretch-card">
-                    <div class="card">
-                      <div class="card-body justify-content-center card">
-                          <div class="row">
+            
 
-                              <div class="d-flex flex-wrap justify-content-center">
-                                <img src="{{ m.qr_code.url }}" alt="" style=" width: 50%; height:auto;">
-                                </div>
-                              </div>
-                              
-                              <div class="d-flex flex-wrap justify-content-center">
-                                    {% if m.status == '' %}
+            <!-- Forms & Tables -->
+            <li class="menu-header fw-medium mt-4"><span class="menu-header-text">Растения и Устройства</span></li>
+            <!-- Form Validation -->
+            <li class="menu-item">
+              <a href="#" target="_blank" class="menu-link">
+                <i class="menu-icon tf-icons mdi mdi-sprout"></i>
+                <div data-i18n="Form Validation">Растения</div>
+                <div class="badge bg-label-primary fs-tiny rounded-pill ms-auto">5</div>
+              </a>
+            </li>
+            <!-- Data Tables -->
+            <li class="menu-item">
+              <a href="#" target="_blank" class="menu-link">
+                <i class="menu-icon tf-icons mdi mdi-grid"></i>
+                <div data-i18n="Datatables">Устройства</div>
+                <div class="badge bg-label-primary fs-tiny rounded-pill ms-auto">5</div>
+              </a>
+            </li>
+            <!-- Misc -->
+            <li class="menu-header fw-medium mt-4"><span class="menu-header-text"></span></li>
+            <li class="menu-item">
+              <a
+                href="#"
+                target="_blank"
+                class="menu-link">
+                <i class="menu-icon tf-icons mdi mdi-file-document-multiple-outline"></i>
+                <div data-i18n="Documentation">Документация</div>
+              </a>
+            </li>
+          </ul>
+        </aside>
+        <!-- / Menu -->
 
-                                    {% endif %}
-                                    
-                                    <div class="mr-5 mt-3">
-                                    <p class="text" style="font-size:17px;"><strong>Устройство:</strong><span class="text-primary font-weight-medium"> {{ m.processor }}</span></p> 
-                                    <p class="text" style="font-size:17px;"><strong>Память:</strong><span class="text-primary  font-weight-medium"> {{ m.memory }}</span></p>
-                                    <p class="text" style="font-size:17px;"><strong>MAC-адрес:</strong><span class="text-primary  font-weight-medium"> {{ m.mac_address }}</span></p>
-                                    <p class="text" style="font-size:17px;"><strong>IP-адрес:</strong><span class="text-primary  font-weight-medium"> {{ m.ip_address }}</span></p>
-                                    <!--<p class="text" style="font-size:17px;"><strong>Коментарии:</strong><span class="text-primary  font-weight-medium"> {{ m.description }}</span></p>-->
-                                    {% if m.status == 'В сети' %}
-                                    <p class="text" style="font-size:17px;"><span class="badge bg-success" style="color: white;"> {{ m.status }}</span></p>
-                                    {% elif m.status == 'Не в сети' %}
-                                      <p class="text" style="font-size:17px;"><span class="badge bg-warning" style="color: white;"> {{ m.status }}</span></p>
-                                    {% elif m.status == 'Не подключен' %}
-                                      <p class="text" style="font-size:17px;"><span class="badge bg-danger" style="color: white;"> {{ m.status }}</span></p>
-                                    {% endif %}
-                                    <form class="forms-sample" method="post" enctype="multipart/form-data">
-                                        {% csrf_token %}
-                                        {{ form.as_p }}
-                                        <button type="submit" class="btn btn-primary mr-2">Сохранить</button>
-                                    </form>
-                                </div>
-                                
-                                
+        <!-- Layout container -->
+        <div class="layout-page">
+          <!-- Navbar -->
+
+          <nav
+            class="layout-navbar container-xxl navbar navbar-expand-xl navbar-detached align-items-center bg-navbar-theme"
+            id="layout-navbar">
+            <div class="layout-menu-toggle navbar-nav align-items-xl-center me-3 me-xl-0 d-xl-none">
+              <a class="nav-item nav-link px-0 me-xl-4" href="javascript:void(0)">
+                <i class="mdi mdi-menu mdi-24px"></i>
+              </a>
+            </div>
+
+            <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
+              <!-- Search -->
+              <div class="navbar-nav align-items-center">
+                <div class="nav-item d-flex align-items-center">
+                  <i class="mdi mdi-magnify mdi-24px lh-0"></i>
+                  <input
+                    type="text"
+                    class="form-control border-0 shadow-none bg-body"
+                    placeholder="Search..."
+                    aria-label="Search..." />
+                </div>
+              </div>
+              <!-- /Search -->
+
+              <ul class="navbar-nav flex-row align-items-center ms-auto">
+
+                <!-- User -->
+                <li class="nav-item navbar-dropdown dropdown-user dropdown">
+                  <a
+                    class="nav-link dropdown-toggle hide-arrow p-0"
+                    href="javascript:void(0);"
+                    data-bs-toggle="dropdown">
+                    <div class="avatar avatar-online">
+                      <img src="{% static 'admin/img/avatars/face.jpg' %}" alt class="w-px-40 h-auto rounded-circle" />
+                    </div>
+                  </a>
+                  <ul class="dropdown-menu dropdown-menu-end mt-3 py-2">
+                    <li>
+                      <a class="dropdown-item pb-2 mb-1" href="#">
+                        <div class="d-flex align-items-center">
+                          <div class="flex-shrink-0 me-2 pe-1">
+                            <div class="avatar avatar-online">
+                              <img src="{% static 'admin/img/avatars/face.jpg'%}" alt class="w-px-40 h-auto rounded-circle" />
+                            </div>
                           </div>
-                    </div>  
+                          <div class="flex-grow-1">
+                            <h6 class="mb-0">Администратор</h6>
+                            <small class="text-muted">Админ</small>
+                          </div>
+                        </div>
+                      </a>
+                    </li>
+                    <li>
+                      <div class="dropdown-divider my-1"></div>
+                    </li>
+                    <li>
+                      <a class="dropdown-item" href="#">
+                        <i class="mdi mdi-account-outline me-1 mdi-20px"></i>
+                        <span class="align-middle">Мой профиль</span>
+                      </a>
+                    </li>
+                    <li>
+                      <a class="dropdown-item" href="#">
+                        <i class="mdi mdi-cog-outline me-1 mdi-20px"></i>
+                        <span class="align-middle">Настройки</span>
+                      </a>
+                    </li>
+                    <li>
+                      <div class="dropdown-divider my-1"></div>
+                    </li>
+                    <li>
+                      <a class="dropdown-item" href="javascript:void(0);">
+                        <i class="mdi mdi-power me-1 mdi-20px"></i>
+                        <span class="align-middle">Выйти</span>
+                      </a>
+                    </li>
+                  </ul>
+                </li>
+                <!--/ User -->
+              </ul>
+            </div>
+          </nav>
+
+          <!-- / Navbar -->
+
+           <!-- Content wrapper -->
+           <div class="content-wrapper">
+            <!-- Content -->
+
+            <div class="container-xxl flex-grow-1 container-p-y">
+              <div class="row gy-4">
+                {% for m in query %}
+                <!-- Congratulations card -->
+                <div class="col-md-12 col-lg-4">
+                  <div class="card">
+                    <div class="card-body">
+                      <h4 class="card-title mb-1">{{ m.plant_name }}</h4>
+                      <p class="pb-0">{{ m.description }}</p>
+                      <h4 class="text-primary mb-1">{{ m.soil_value }}%</h4>
+                      <p class="mb-2 pb-1"> Объем воды - {{ m.capacity }} мл</p>
+                      <a href="{% url 'product-detail' pk=m.id %}" class="btn btn-sm btn-primary">Подробнее</a>
+                    </div>
+                    <img
+                      src="{{m.plant_image.url}}"
+                      class="scaleX-n1-rtl position-absolute bottom-0 end-0 me-4 mb-4 pb-2"
+                      width="120"
+                      alt="view sales" />
                   </div>
                 </div>
-                
-                <div class="col-md-8 grid-margin transparent">
-                    
-                  <div class="row">
-                        
-                    <div class="col-md-4 mb-4 stretch-card transparent">
-                        <div class="card card-tale">
-                          <div class="card-body">
-                            <p class="mb-4"><strong>Модель</strong></p>
-                            <p class="fs-30 mb-2">{{ m.model_id }}</p>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="col-md-6 mb-4 stretch-card transparent">
-                        <div class="card card-light-success">
-                          <div class="card-body">
-                            <p class="mb-4"><strong>Объект</strong></p>
-                            <p class="fs-30 mb-2">{{ m.room_number }}</p>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="col-md-4 mb-4 mb-lg-0 stretch-card transparent">
-                        <div class="card card-light-blue">
-                          <div class="card-body">                            
-                            <p class="mb-4"><strong>Ответственный</strong></p>
-                            <p class="fs-30 mb-2">{{ m.responsible_id }}</p>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="col-md-6 stretch-card transparent">
-                        <div class="card card-light-danger">
-                          <div class="card-body">   
-                            <p class="mb-4"><strong>Идентификационный номер</strong></p>
-                            <p class="fs-30 mb-2">{{ m.inventar_number }}</p>
-                          </div>
-                        </div>
-                      </div>
+                <!--/ Congratulations card -->
+                {% endfor %}
 
-                    </div>                 
-                    
+
+                <!-- Transactions -->
+                <div class="col-lg-8">
+                  <div class="card">
+                    <div class="card-header">
+                      <div class="d-flex align-items-center justify-content-between">
+                        <h5 class="card-title m-0 me-2">Transactions</h5>
+                        <div class="dropdown">
+                          <button
+                            class="btn p-0"
+                            type="button"
+                            id="transactionID"
+                            data-bs-toggle="dropdown"
+                            aria-haspopup="true"
+                            aria-expanded="false">
+                            <i class="mdi mdi-dots-vertical mdi-24px"></i>
+                          </button>
+                          <div class="dropdown-menu dropdown-menu-end" aria-labelledby="transactionID">
+                            <a class="dropdown-item" href="javascript:void(0);">Refresh</a>
+                            <a class="dropdown-item" href="javascript:void(0);">Share</a>
+                            <a class="dropdown-item" href="javascript:void(0);">Update</a>
+                          </div>
+                        </div>
+                      </div>
+                      <p class="mt-3"><span class="fw-medium">Total 48.5% growth</span> 😎 this month</p>
+                    </div>
+                    <div class="card-body">
+                      <div class="row g-3">
+                        <div class="col-md-3 col-6">
+                          <div class="d-flex align-items-center">
+                            <div class="avatar">
+                              <div class="avatar-initial bg-primary rounded shadow">
+                                <i class="mdi mdi-trending-up mdi-24px"></i>
+                              </div>
+                            </div>
+                            <div class="ms-3">
+                              <div class="small mb-1">Sales</div>
+                              <h5 class="mb-0">245k</h5>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-md-3 col-6">
+                          <div class="d-flex align-items-center">
+                            <div class="avatar">
+                              <div class="avatar-initial bg-success rounded shadow">
+                                <i class="mdi mdi-account-outline mdi-24px"></i>
+                              </div>
+                            </div>
+                            <div class="ms-3">
+                              <div class="small mb-1">Customers</div>
+                              <h5 class="mb-0">12.5k</h5>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-md-3 col-6">
+                          <div class="d-flex align-items-center">
+                            <div class="avatar">
+                              <div class="avatar-initial bg-warning rounded shadow">
+                                <i class="mdi mdi-cellphone-link mdi-24px"></i>
+                              </div>
+                            </div>
+                            <div class="ms-3">
+                              <div class="small mb-1">Product</div>
+                              <h5 class="mb-0">1.54k</h5>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-md-3 col-6">
+                          <div class="d-flex align-items-center">
+                            <div class="avatar">
+                              <div class="avatar-initial bg-info rounded shadow">
+                                <i class="mdi mdi-currency-usd mdi-24px"></i>
+                              </div>
+                            </div>
+                            <div class="ms-3">
+                              <div class="small mb-1">Revenue</div>
+                              <h5 class="mb-0">$88k</h5>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
                   </div>
-                  
+                </div>
+                <!--/ Transactions -->
+
+                <!-- Weekly Overview Chart -->
+                <div class="col-xl-4 col-md-6">
+                  <div class="card">
+                    <div class="card-header">
+                      <div class="d-flex justify-content-between">
+                        <h5 class="mb-1">Недельный обзор</h5>
+                      </div>
+                    </div>
+                    <div class="card-body">
+                      <div id="weeklyOverviewChart"></div>
+                      <div class="mt-1 mt-md-3">
+                        <div class="d-flex align-items-center gap-3">
+                          <h3 class="mb-0">45%</h3>
+                          <p class="mb-0">Your sales performance is 45% 😎 better compared to last month</p>
+                        </div>
+                        <div class="d-grid mt-3 mt-md-4">
+                          <button class="btn btn-primary" type="button">Details</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!--/ Weekly Overview Chart -->
+
+                <!-- Total Earnings -->
+                <div class="col-xl-4 col-md-6">
+                  <div class="card">
+                    <div class="card-header d-flex align-items-center justify-content-between">
+                      <h5 class="card-title m-0 me-2">Total Earning</h5>
+                      <div class="dropdown">
+                        <button
+                          class="btn p-0"
+                          type="button"
+                          id="totalEarnings"
+                          data-bs-toggle="dropdown"
+                          aria-haspopup="true"
+                          aria-expanded="false">
+                          <i class="mdi mdi-dots-vertical mdi-24px"></i>
+                        </button>
+                        <div class="dropdown-menu dropdown-menu-end" aria-labelledby="totalEarnings">
+                          <a class="dropdown-item" href="javascript:void(0);">Last 28 Days</a>
+                          <a class="dropdown-item" href="javascript:void(0);">Last Month</a>
+                          <a class="dropdown-item" href="javascript:void(0);">Last Year</a>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="card-body">
+                      <div class="mb-3 mt-md-3 mb-md-5">
+                        <div class="d-flex align-items-center">
+                          <h2 class="mb-0">$24,895</h2>
+                          <span class="text-success ms-2 fw-medium">
+                            <i class="mdi mdi-menu-up mdi-24px"></i>
+                            <small>10%</small>
+                          </span>
+                        </div>
+                        <small class="mt-1">Compared to $84,325 last year</small>
+                      </div>
+                      <ul class="p-0 m-0">
+                        <li class="d-flex mb-4 pb-md-2">
+                          <div class="avatar flex-shrink-0 me-3">
+                            <img src="../assets/img/icons/misc/zipcar.png" alt="zipcar" class="rounded" />
+                          </div>
+                          <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
+                            <div class="me-2">
+                              <h6 class="mb-0">Zipcar</h6>
+                              <small>Vuejs, React & HTML</small>
+                            </div>
+                            <div>
+                              <h6 class="mb-2">$24,895.65</h6>
+                              <div class="progress bg-label-primary" style="height: 4px">
+                                <div
+                                  class="progress-bar bg-primary"
+                                  style="width: 75%"
+                                  role="progressbar"
+                                  aria-valuenow="75"
+                                  aria-valuemin="0"
+                                  aria-valuemax="100"></div>
+                              </div>
+                            </div>
+                          </div>
+                        </li>
+                        <li class="d-flex mb-4 pb-md-2">
+                          <div class="avatar flex-shrink-0 me-3">
+                            <img src="../assets/img/icons/misc/bitbank.png" alt="bitbank" class="rounded" />
+                          </div>
+                          <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
+                            <div class="me-2">
+                              <h6 class="mb-0">Bitbank</h6>
+                              <small>Sketch, Figma & XD</small>
+                            </div>
+                            <div>
+                              <h6 class="mb-2">$8,6500.20</h6>
+                              <div class="progress bg-label-info" style="height: 4px">
+                                <div
+                                  class="progress-bar bg-info"
+                                  style="width: 75%"
+                                  role="progressbar"
+                                  aria-valuenow="75"
+                                  aria-valuemin="0"
+                                  aria-valuemax="100"></div>
+                              </div>
+                            </div>
+                          </div>
+                        </li>
+                        <li class="d-flex mb-md-3">
+                          <div class="avatar flex-shrink-0 me-3">
+                            <img src="../assets/img/icons/misc/aviato.png" alt="aviato" class="rounded" />
+                          </div>
+                          <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
+                            <div class="me-2">
+                              <h6 class="mb-0">Aviato</h6>
+                              <small>HTML & Angular</small>
+                            </div>
+                            <div>
+                              <h6 class="mb-2">$1,2450.80</h6>
+                              <div class="progress bg-label-secondary" style="height: 4px">
+                                <div
+                                  class="progress-bar bg-secondary"
+                                  style="width: 75%"
+                                  role="progressbar"
+                                  aria-valuenow="75"
+                                  aria-valuemin="0"
+                                  aria-valuemax="100"></div>
+                              </div>
+                            </div>
+                          </div>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+                <!--/ Total Earnings -->
+
+                <!-- Four Cards -->
+                <div class="col-xl-4 col-md-6">
+                  <div class="row gy-4">
+                    <!-- Total Profit line chart -->
+                    <div class="col-sm-6">
+                      <div class="card h-100">
+                        <div class="card-header pb-0">
+                          <h4 class="mb-0">$86.4k</h4>
+                        </div>
+                        <div class="card-body">
+                          <div id="totalProfitLineChart" class="mb-3"></div>
+                          <h6 class="text-center mb-0">Total Profit</h6>
+                        </div>
+                      </div>
+                    </div>
+                    <!--/ Total Profit line chart -->
+                    <!-- Total Profit Weekly Project -->
+                    <div class="col-sm-6">
+                      <div class="card h-100">
+                        <div class="card-header d-flex align-items-center justify-content-between">
+                          <div class="avatar">
+                            <div class="avatar-initial bg-secondary rounded-circle shadow">
+                              <i class="mdi mdi-poll mdi-24px"></i>
+                            </div>
+                          </div>
+                          <div class="dropdown">
+                            <button
+                              class="btn p-0"
+                              type="button"
+                              id="totalProfitID"
+                              data-bs-toggle="dropdown"
+                              aria-haspopup="true"
+                              aria-expanded="false">
+                              <i class="mdi mdi-dots-vertical mdi-24px"></i>
+                            </button>
+                            <div class="dropdown-menu dropdown-menu-end" aria-labelledby="totalProfitID">
+                              <a class="dropdown-item" href="javascript:void(0);">Refresh</a>
+                              <a class="dropdown-item" href="javascript:void(0);">Share</a>
+                              <a class="dropdown-item" href="javascript:void(0);">Update</a>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="card-body mt-mg-1">
+                          <h6 class="mb-2">Total Profit</h6>
+                          <div class="d-flex flex-wrap align-items-center mb-2 pb-1">
+                            <h4 class="mb-0 me-2">$25.6k</h4>
+                            <small class="text-success mt-1">+42%</small>
+                          </div>
+                          <small>Weekly Project</small>
+                        </div>
+                      </div>
+                    </div>
+                    <!--/ Total Profit Weekly Project -->
+                    <!-- New Yearly Project -->
+                    <div class="col-sm-6">
+                      <div class="card h-100">
+                        <div class="card-header d-flex align-items-center justify-content-between">
+                          <div class="avatar">
+                            <div class="avatar-initial bg-primary rounded-circle shadow-sm">
+                              <i class="mdi mdi-wallet-travel mdi-24px"></i>
+                            </div>
+                          </div>
+                          <div class="dropdown">
+                            <button
+                              class="btn p-0"
+                              type="button"
+                              id="newProjectID"
+                              data-bs-toggle="dropdown"
+                              aria-haspopup="true"
+                              aria-expanded="false">
+                              <i class="mdi mdi-dots-vertical mdi-24px"></i>
+                            </button>
+                            <div class="dropdown-menu dropdown-menu-end" aria-labelledby="newProjectID">
+                              <a class="dropdown-item" href="javascript:void(0);">Refresh</a>
+                              <a class="dropdown-item" href="javascript:void(0);">Share</a>
+                              <a class="dropdown-item" href="javascript:void(0);">Update</a>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="card-body mt-mg-1">
+                          <h6 class="mb-2">New Project</h6>
+                          <div class="d-flex flex-wrap align-items-center mb-2 pb-1">
+                            <h4 class="mb-0 me-2">862</h4>
+                            <small class="text-danger mt-1">-18%</small>
+                          </div>
+                          <small>Yearly Project</small>
+                        </div>
+                      </div>
+                    </div>
+                    <!--/ New Yearly Project -->
+                    <!-- Sessions chart -->
+                    <div class="col-sm-6">
+                      <div class="card h-100">
+                        <div class="card-header pb-0">
+                          <h4 class="mb-0">2,856</h4>
+                        </div>
+                        <div class="card-body">
+                          <div id="sessionsColumnChart" class="mb-3"></div>
+                          <h6 class="text-center mb-0">Sessions</h6>
+                        </div>
+                      </div>
+                    </div>
+                    <!--/ Sessions chart -->
+                  </div>
+                </div>
+                <!--/ Total Earning -->
 
               </div>
-          {% endfor %}
-        <!-- partial -->
+            </div>
+            <!-- / Content -->
+
+
+            <div class="content-backdrop fade"></div>
+          </div>
+          <!-- Content wrapper -->
+        </div>
+        <!-- / Layout page -->
       </div>
-      <!-- main-panel ends -->
+
+      <!-- Overlay -->
+      <div class="layout-overlay layout-menu-toggle"></div>
     </div>
-    <!-- page-body-wrapper ends -->
-  </div>
-  <!-- container-scroller -->
+    <!-- / Layout wrapper -->
 
-  <!-- plugins:js -->
-  <script src="{% static 'admin/vendors/js/vendor.bundle.base.js' %}"></script>
-  <!-- endinject -->
-  
-  <!-- inject:js -->
-  <script src="{% static 'admin/js/template.js' %}"></script>
-  <script src="{% static 'admin/js/settings.js' %}"></script>
-  <script src="{% static 'admin/js/file-upload.js' %}"></script>
+      
 
-  <!-- endinject -->
-  <!-- Custom js for this page-->
-  <!-- End custom js for this page-->
-</body>
+    <!-- Core JS -->
+    <!-- build:js assets/vendor/js/core.js -->
+    <script src="{% static 'admin/vendor/libs/jquery/jquery.js'%}"></script>
+    <script src="{% static 'admin/vendor/js/bootstrap.js'%}"></script>
 
+    <!-- endbuild -->
+
+    <!-- Vendors JS -->
+    <script src="{% static 'admin/vendor/libs/apex-charts/apexcharts.js'%}"></script>
+
+    <!-- Main JS -->
+    <script src="{% static 'admin/vendor/js/menu.js'%}"></script>
+    
+
+    <script src="{% static 'admin/vendor/libs/popper/popper.js' %}"></script>
+    <!-- Page JS -->
+    <script src="{% static 'admin/js/dashboards-analytics.js'%}"></script>
+  </body>
 </html>
-
