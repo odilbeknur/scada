@@ -29,7 +29,7 @@
       },
       series: [
         {
-          name: 'Sales',
+          name: 'Влажность',
           data: [32, 55, 100, 75, 55, 35, 70]
         }
       ],
@@ -70,7 +70,7 @@
         }
       },
       xaxis: {
-        categories: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+        categories: ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'],
         tickPlacement: 'on',
         labels: {
           show: false
