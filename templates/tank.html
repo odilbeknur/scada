@@ -91,18 +91,24 @@
 
     <script>
         // JavaScript code to dynamically adjust water level
-        function setWaterLevel(litres) {
+        function setWaterLevel() {
             const water = document.getElementById('water');
             const waterLevelText = document.getElementById('waterLevel');
-            const tankHeight = 300; // Height of the tank in pixels
-            const tankVolume = 20; // Total volume of the tank in liters
-            const waterHeight = (litres / tankVolume) * tankHeight;
-            water.style.height = waterHeight + 'px';
-            waterLevelText.textContent = litres + ' Litres';
+            const tank = document.getElementById('tank');
+            const waterLevelInput = document.getElementById('waterLevelInput');
+
+            // Get the current water level
+            const currentWaterLevel = parseFloat(water.style.height) / parseFloat(tank.style.height) * 20;
+
+            // Update the water level text
+            waterLevelText.textContent = currentWaterLevel.toFixed(2) + ' Litres';
+
+            // Update the range input value
+            waterLevelInput.value = currentWaterLevel.toFixed(2);
         }
 
         // Initial setup: Set water level to 10 Litres
-        setWaterLevel(10);
+        setWaterLevel();
     </script>
 </body>
 </html>

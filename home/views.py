@@ -66,7 +66,7 @@ def water(request):
     else:
         form = MyForm()
 
-    return render(request, 'water_form.html', {'form': form})
+    return render(request, 'api.html', {'form': form})
 # cron.py
 
 def my_cron_job():

@@ -68,7 +68,7 @@
           <ul class="menu-inner py-1">
             <!-- Dashboards -->
             <li class="menu-item active">
-              <a href="javascript:void(0);" class="menu-link">
+              <a href="{% url 'admin-index'%}" class="menu-link">
                 <i class="menu-icon tf-icons mdi mdi-view-dashboard-variant"></i>
                 <div>Панель</div>
               </a>             
@@ -80,7 +80,7 @@
             <li class="menu-header fw-medium mt-4"><span class="menu-header-text">Растения и Устройства</span></li>
             <!-- Form Validation -->
             <li class="menu-item">
-              <a href="#" target="_blank" class="menu-link">
+              <a href="{% url 'admin-plants'%}" target="_blank" class="menu-link">
                 <i class="menu-icon tf-icons mdi mdi-sprout"></i>
                 <div data-i18n="Form Validation">Растения</div>
                 <div class="badge bg-label-primary fs-tiny rounded-pill ms-auto">5</div>
@@ -98,7 +98,7 @@
             <li class="menu-header fw-medium mt-4"><span class="menu-header-text">Создание объекта</span></li>
             <li class="menu-item">
               <a
-                href="{% url 'model-create' %}"
+                href="{% url 'plant-create'%}"
                 target="_blank"
                 class="menu-link">
                 <i class="menu-icon tf-icons mdi mdi-seed-plus-outline"></i>
@@ -219,26 +219,66 @@
           <div class="content-wrapper">
             
             <!-- Plant -->
-            <div class="container-xxl flex-grow-1 container-p-y">
+            <div class="container-xxl flex-grow-1 container-p-y">              
               <div class="row gy-4">
+                <!-- Total Earnings -->
                 {% for m in queryset %}
-                  <div class="col-md-12 col-lg-4">
-                    <div class="card">
-                      <div class="card-body">
-                        <h4 class="card-title mb-1">{{ m.plant_name }}</h4>
-                        <p class="pb-0">{{ m.description }}</p>
-                        <h4 class="text-primary mb-1">{{ m.soil_value }}%</h4>
-                        <p class="mb-2 pb-1"> Объем воды - {{ m.capacity }} мл</p>
-                        <a href="{% url 'product-detail' pk=m.id %}" class="btn btn-sm btn-primary">Подробнее</a>
+                <div class="col-xl-4 col-md-6">
+                  <div class="card">
+                    <div class="card-header d-flex align-items-center justify-content-between">
+                      <h3 class="card-title m-0 me-2" style="color:#0ddf76">{{ m.plant_name }}</h3>
+                      <div class="dropdown">
+                        <button
+                          class="btn p-0"
+                          type="button"
+                          id="totalEarnings"
+                          data-bs-toggle="dropdown"
+                          aria-haspopup="true"
+                          aria-expanded="false">
+                          <i class="mdi mdi-dots-vertical mdi-24px"></i>
+                        </button>
+                        <div class="dropdown-menu dropdown-menu-end" aria-labelledby="totalEarnings">
+                          <a class="dropdown-item" href="javascript:void(0);">Обновить</a>
+                          <a class="dropdown-item" href="javascript:void(0);">Изменить</a>
+                          <a class="dropdown-item" href="javascript:void(0);">Удалить</a>
+                        </div>
                       </div>
-                      <img
-                        src="{{m.plant_image.url}}"
-                        class="scaleX-n1-rtl position-absolute bottom-0 end-0 me-4 mb-4 pb-2"
-                        width="120"
-                        alt="view sales" />
                     </div>
+
+                    <div class="card-body">
+                      <div class="mb-3">
+                          <div class="d-flex align-items-center">
+                            <h2 class="mb-0" style="color:rgba(49, 198, 243, 0.95);">
+                              {{ m.soil_value }}%
+                            </h2>
+                              <span class="text-success ms-2 fw-medium">
+                                  <i class="mdi mdi-alarm-check mdi-24px" style="color:#dfae0d"></i>
+                                  <small style="color:#dfae0d">10 мин.</small>
+                              </span>
+                          </div>
+                          <small class="mt-1">Максимальный объем воды - {{ m.capacity }} </small>
+                      </div>
+                      <div class="d-flex mb-4 pb-md-2 align-items-center">
+                          <div class="mb-2">
+                              <canvas id="soilChart{{ m.plant_num }}" width="250" height="250" data-soil-value="{{ m.soil_value }}"></canvas>
+                          </div>
+                          <div class="mb-2">
+                            <form id="controlForm">
+                              <div class="container">
+                                  <a href="#" class="device relay active">Сеснсор</a>
+                                  <a href="#" class="device pump">Насос</a>
+                              </div>
+                                <input type="hidden" id="relayState" name="relayState" value="true">
+                                <input type="hidden" id="pumpState" name="pumpState" value="false">
+
+                            </form>
+                          </div>
+                      </div>                      
+                    </div>                                
                   </div>
+                </div>
                 {% endfor %}
+
               </div>
             </div>
             <!-- / Plant -->
@@ -256,14 +296,73 @@
     </div>
     <!-- / Layout wrapper -->
 
-      
 
+    <style>    
+
+      .device {
+        width: 100px;
+        height: 100px;
+        border: 2px solid #333; /* Adjust border width */
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 10px;
+        text-decoration: none; /* Remove default underline */
+        color: rgb(255, 255, 255); /* Text color */
+        font-weight: bold; /* Bold font */
+        font-size: 12px; /* Larger font size */
+        letter-spacing: 0.5px; /* Increased letter spacing */
+        text-transform: uppercase; /* Uppercase text */
+        transition: background-color 0.3s; /* Smooth transition */
+      }
+      .device:hover {
+        background-color: linear-gradient(270deg, #3ceeaa 0%, #0fb676 100%); /* Light gray on hover */
+        color: white;
+      }
+
+      .relay {
+        border-color: white; /* CornflowerBlue */
+        background-color: #ff0000; /* SkyBlue */
+
+      }
+      .relay.active {
+        border-color: white; 
+        background-color: #0ddf76; /* SkyBlue */
+
+      }
+      .pump {
+        border-color: white; 
+        background-color: #ff0000; /* Red */
+
+      }
+      .pump:hover {
+        border-color: white; 
+        background-color: #ff0000c0; /* Red */
+
+      }
+      .pump.active {
+        background-color:#0ddf76; /* Gradient green */
+        border-color: white; /* OrangeRed */
+      }
+      .pump.active:hover {
+        background-color:#0ddf76cc; /* Gradient green */
+        border-color: white; /* OrangeRed */
+      }
+    </style>
+
+    <script src="{% static 'chart.js'%}"></script>
+    
+    
+  
     <!-- Core JS -->
     <!-- build:js assets/vendor/js/core.js -->
     <script src="{% static 'admin/vendor/libs/jquery/jquery.js'%}"></script>
     <script src="{% static 'admin/vendor/js/bootstrap.js'%}"></script>
 
     <!-- endbuild -->
+    <script content="text/javascript" src="{%static 'main.js'%}"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <!-- Vendors JS -->
     <script src="{% static 'admin/vendor/libs/apex-charts/apexcharts.js'%}"></script>

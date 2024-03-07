@@ -67,8 +67,8 @@
 
           <ul class="menu-inner py-1">
             <!-- Dashboards -->
-            <li class="menu-item">
-              <a href="{% url 'admin-index'%}" class="menu-link">
+            <li class="menu-item active">
+              <a href="javascript:void(0);" class="menu-link">
                 <i class="menu-icon tf-icons mdi mdi-view-dashboard-variant"></i>
                 <div>Панель</div>
               </a>             
@@ -80,7 +80,7 @@
             <li class="menu-header fw-medium mt-4"><span class="menu-header-text">Растения и Устройства</span></li>
             <!-- Form Validation -->
             <li class="menu-item">
-              <a href="{% url 'admin-plants'%}" target="_blank" class="menu-link">
+              <a href="#" target="_blank" class="menu-link">
                 <i class="menu-icon tf-icons mdi mdi-sprout"></i>
                 <div data-i18n="Form Validation">Растения</div>
                 <div class="badge bg-label-primary fs-tiny rounded-pill ms-auto">5</div>
@@ -98,7 +98,7 @@
             <li class="menu-header fw-medium mt-4"><span class="menu-header-text">Создание объекта</span></li>
             <li class="menu-item">
               <a
-                href="{% url 'plant-create' %}"
+                href="{% url 'model-create' %}"
                 target="_blank"
                 class="menu-link">
                 <i class="menu-icon tf-icons mdi mdi-seed-plus-outline"></i>
@@ -114,7 +114,7 @@
                 <div>Добавить комнату</div>
               </a>
             </li>
-            <li class="menu-item active">
+            <li class="menu-item">
               <a
                 href="{% url 'responsible-create' %}"
                 target="_blank"
@@ -219,7 +219,7 @@
             <!-- Content -->
 
             <div class="container-xxl flex-grow-1 container-p-y">
-              <h4 class="py-3 mb-4"><span class="text-muted fw-light">Создание/</span> Ответственный</h4>
+              <h4 class="py-3 mb-4"><span class="text-muted fw-light">Создание/</span> Комната</h4>
 
               {% if messages %}
                   {% for message in messages %}
@@ -237,23 +237,19 @@
                   <div class="card mb-4">
                     <div class="card-header d-flex justify-content-between align-items-center">
                       <h5 class="mb-0">Форма</h5>
-                      <small class="text-muted float-end">№3</small>
+                      <small class="text-muted float-end">№2</small>
                     </div>
                     <div class="card-body" method="post" enctype="multipart/form-data">
                       <form method="post" enctype="multipart/form-data">
                         {% csrf_token %}
                         <div class="form-floating form-floating-outline mb-4">
-                          <input name="fullname" type="text" class="form-control" id="basic-default-fullname" placeholder="Ф.И.О.">
-                          <label for="basic-default-fullname">Ф.И.О.</label>
+                          <input name="name" type="text" class="form-control" id="basic-default-fullname" placeholder="Комната 101">
+                          <label for="basic-default-fullname">Название комнаты(объекта)</label>
                         </div>
-                        <div class="form-floating form-floating-outline mb-4">
-                          <input name="description" type="text" class="form-control" id="basic-default-fullname" placeholder="Ведущий специалист">
-                          <label for="basic-default-fullname">Должность</label>
-                        </div>
-                        <!--<div class="mb-4">
-                          <label for="formFile" class="form-label">Фото</label>
+                        <div class="mb-4">
+                          <label for="formFile" class="form-label">Загрузите изображение</label>
                           <input name="image" class="form-control" type="file" id="formFile">
-                        </div>-->
+                        </div>
                         <button type="submit" class="btn btn-primary waves-effect waves-light">Сохранить</button>
                       </form>
                     </div>

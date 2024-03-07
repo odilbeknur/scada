@@ -113,3 +113,56 @@
   text-align: center;
   margin-top: 1.25rem;
 }
+
+
+
+.device {
+  width: 100px;
+  height: 100px;
+  border: 2px solid #333; /* Adjust border width */
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 10px;
+  text-decoration: none; /* Remove default underline */
+  color: rgb(255, 255, 255); /* Text color */
+  font-weight: bold; /* Bold font */
+  font-size: 12px; /* Larger font size */
+  letter-spacing: 0.5px; /* Increased letter spacing */
+  text-transform: uppercase; /* Uppercase text */
+  transition: background-color 0.3s; /* Smooth transition */
+}
+.device:hover {
+  background-color: linear-gradient(270deg, #3ceeaa 0%, #0fb676 100%); /* Light gray on hover */
+  color: white;
+}
+
+.relay {
+  border-color: white; /* CornflowerBlue */
+  background-color: #c7ad17; /* SkyBlue */
+
+}
+.relay.active {
+  border-color: white; 
+  background-color: #0ddf76; /* SkyBlue */
+
+}
+.pump {
+  border-color: white; 
+  background-color: #ff0000; /* Red */
+
+}
+.pump:hover {
+  border-color: white; 
+  background-color: #ff0000c0; /* Red */
+
+}
+.pump.active {
+  background-color:#0ddf76; /* Gradient green */
+  border-color: white; /* OrangeRed */
+}
+.pump.active:hover {
+  background-color:#0ddf76cc; /* Gradient green */
+  border-color: white; /* OrangeRed */
+}

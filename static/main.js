@@ -22,3 +22,78 @@
 
 // Call updateTable function every second
 setInterval(updateTable, 300);
+
+
+ // JavaScript code
+ document.addEventListener('DOMContentLoaded', function() {
+    // Loop through all soil chart canvas elements
+    document.querySelectorAll('canvas[id^="soilChart"]').forEach(function(canvas, index) {
+        var ctx = canvas.getContext('2d');
+        var soilValue = parseFloat(canvas.getAttribute('data-soil-value')); // Get soil value from data attribute
+        var dryValue = 100 - soilValue;
+        var soilChart = new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                datasets: [{
+                    label:  ['Влажность'],
+                    data: [soilValue, dryValue], // Values for wet and dry percentages
+                    backgroundColor: [
+                        'rgba(49, 198, 243, 0.95)',
+                        'rgba(235, 65, 43, 0.849)'
+                    ],
+                    borderColor: [
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 99, 132, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                cutoutPercentage: 80, // Create a half pie chart
+                responsive: true,
+                maintainAspectRatio: false,
+                title: {
+                    display: false,
+                    text: 'Влажность'
+                },
+                animation: {
+                    animateRotate: true,
+                    animateScale: true
+                }
+            }
+        });
+    });
+
+    // Toggle pump state
+    var pumpCircle = document.querySelector('.pump');
+    // Check pump state on page load
+    if (document.getElementById('pumpState').value === 'true') {
+        pumpCircle.classList.add('active');
+    }
+
+    document.querySelectorAll('.device').forEach(function(device) {
+        device.addEventListener('click', function() {
+            // Toggle 'active' class on the clicked device if it's the pump
+            if (device.classList.contains('pump')) {
+                device.classList.toggle('active');
+                document.getElementById('pumpState').value = device.classList.contains('active') ? 'true' : 'false';
+            }
+        });
+    });
+
+    var pumpCircle = document.querySelector('.relay');
+    // Check pump state on page load
+    if (document.getElementById('relayState').value === 'true') {
+        pumpCircle.classList.add('active');
+    }
+
+    document.querySelectorAll('.device').forEach(function(device) {
+        device.addEventListener('click', function() {
+            // Toggle 'active' class on the clicked device if it's the pump
+            if (device.classList.contains('relay')) {
+                device.classList.toggle('active');
+                document.getElementById('relayState').value = device.classList.contains('active') ? 'true' : 'false';
+            }
+        });
+    });
+});
