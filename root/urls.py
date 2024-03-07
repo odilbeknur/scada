@@ -1,9 +1,11 @@
 from multiprocessing.spawn import import_main_path
 from django.urls import path
 from .views import Admin_index, Admin_plants, CategoryCreateView, baseview, PlantCreateView, ProductDetailView, ProductUpdateView, ProductDeleteView, ResponsibleCreateView
+from . import views
 
 urlpatterns = [
     path('admin-index/', Admin_index, name='admin-index'),
+    path('watering/', views.water, name='watering'),
     path('admin-plants/', Admin_plants, name='admin-plants'),
     path('admin-index/category-create', CategoryCreateView.as_view(), name='category-create'),  
     path('admin-index/poka-base/<int:pk>', baseview, name='base-view'),

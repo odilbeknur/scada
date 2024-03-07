@@ -226,7 +226,7 @@
                 <div class="col-xl-4 col-md-6">
                   <div class="card">
                     <div class="card-header d-flex align-items-center justify-content-between">
-                      <h3 class="card-title m-0 me-2" style="color:#0ddf76">{{ m.plant_name }}</h3>
+                      <h3 class="card-title m-0 me-2" style="color:#0fb462">{{ m.plant_name }}</h3>
                       <div class="dropdown">
                         <button
                           class="btn p-0"
@@ -248,7 +248,7 @@
                     <div class="card-body">
                       <div class="mb-3">
                           <div class="d-flex align-items-center">
-                            <h2 class="mb-0" style="color:rgba(49, 198, 243, 0.95);">
+                            <h2 class="mb-0" style="color:rgba(11, 159, 204, 0.95);">
                               {{ m.soil_value }}%
                             </h2>
                               <span class="text-success ms-2 fw-medium">
@@ -256,7 +256,7 @@
                                   <small style="color:#dfae0d">10 мин.</small>
                               </span>
                           </div>
-                          <small class="mt-1">Максимальный объем воды - {{ m.capacity }} </small>
+                          <small class="mt-1">Максимальный объем воды - {{ m.capacity }} мл </small>
                       </div>
                       <div class="d-flex mb-4 pb-md-2 align-items-center">
                           <div class="mb-2">
@@ -295,10 +295,7 @@
       <div class="layout-overlay layout-menu-toggle"></div>
     </div>
     <!-- / Layout wrapper -->
-
-
     <style>    
-
       .device {
         width: 100px;
         height: 100px;
@@ -350,6 +347,43 @@
         border-color: white; /* OrangeRed */
       }
     </style>
+    <script>
+      document.getElementById('controlForm').addEventListener('submit', function(event) {
+          event.preventDefault();  // Prevent default form submission
+
+          // Get form data
+          const formData = new FormData(this);
+
+          // Send POST request using Axios
+          axios.post('/watering/', formData)
+              .then(response => {
+                  if (response.data.success) {
+                      // Handle success
+                      alert('Watering successful!');
+                  } else {
+                      // Handle failure
+                      alert('Watering failed!');
+                  }
+              })
+              .catch(error => {
+                  console.error('Error:', error);
+                  alert('An error occurred while watering.');
+              });
+        });
+
+
+        // Update power and WiFi status
+        const relayIndicator = document.querySelector('.relay');
+        const pumpIndicator = document.querySelector('.pump');
+
+        // Simulate changing power and WiFi status (for demonstration purposes)
+        setInterval(() => {
+            pumpIndicator.style.backgroundColor = Math.random() < 0.5 ? '#0ddf76' : ' #ff0000';
+            relayIndicator.style.backgroundColor = Math.random() < 0.5 ? '#0ddf76' : '#dfae0d';
+        }, 3000); // Update every 1 seconds
+
+    </script>
+    
 
     <script src="{% static 'chart.js'%}"></script>
     

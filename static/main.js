@@ -38,16 +38,13 @@ setInterval(updateTable, 300);
                     label:  ['Влажность'],
                     data: [soilValue, dryValue], // Values for wet and dry percentages
                     backgroundColor: [
-                        'rgba(49, 198, 243, 0.95)',
-                        'rgba(235, 65, 43, 0.849)'
-                    ],
-                    borderColor: [
-                        'rgba(54, 162, 235, 1)',
-                        'rgba(255, 99, 132, 1)'
+                        'rgb(64, 224, 208)',
+                        'rgb(150, 222, 209)'
                     ],
                     borderWidth: 1
                 }]
             },
+
             options: {
                 cutoutPercentage: 80, // Create a half pie chart
                 responsive: true,

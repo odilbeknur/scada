@@ -23,33 +23,16 @@ def Admin_plants(request):
 
 def water(request):
     if request.method == 'POST':
-        class MyForm(forms.Form):
-            plant = forms.CharField(max_length=100)
-            amount = forms.IntegerField()
+        # Process form data and send POST request to FastAPI as before
         
-        form = MyForm(request.POST)
-        if form.is_valid():
-            # Get data from the form
-            plant = form.cleaned_data['plant']
-            amount = form.cleaned_data['amount']
-            
-            # Construct the URL based on the form input
-            url = f'http://10.40.9.25:8001/watering/{plant}?water={amount}'
-            
-            # Send POST request to FastAPI
-            response = requests.post(url)
-            print(url)
-            print(response.status_code)
-
-            # Handle response
-            if response.status_code == 200:
-                return JsonResponse({'success': True})  # Return JSON response indicating success
-            else:
-                return JsonResponse({'success': False})  # Return JSON response indicating failure
+        if response.status_code == 200:
+            return JsonResponse({'success': True})  # Return JSON response indicating success
+        else:
+            return JsonResponse({'success': False})  # Return JSON response indicating failure
     else:
-        form = MyForm()
+        return JsonResponse({'error': 'Method not allowed'}, status=405)  # Return JSON response for invalid method
 
-    return render(request, 'api.html', {'form': form})
+
 
 class CategoryCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
     model = Category

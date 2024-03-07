@@ -33,6 +33,7 @@
     <link rel="stylesheet" href="{% static 'admin/vendor/css/core.css' %}" class="template-customizer-core-css" />
     <link rel="stylesheet" href="{% static 'admin/vendor/css/theme-default.css' %}" class="template-customizer-theme-css" />
     <link rel="stylesheet" href="{% static 'admin/css/demo.css' %}" />
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
     <!-- Helpers -->
     <script src="{% static 'admin/vendor/js/helpers.js' %}"></script>
@@ -240,7 +241,6 @@
                   </div>
                 </div>
                 <!--/ Congratulations card -->
-                {% endfor %}
 
 
                 <!-- Transactions -->
@@ -260,9 +260,9 @@
                             <i class="mdi mdi-dots-vertical mdi-24px"></i>
                           </button>
                           <div class="dropdown-menu dropdown-menu-end" aria-labelledby="transactionID">
-                            <a class="dropdown-item" href="javascript:void(0);">Refresh</a>
-                            <a class="dropdown-item" href="javascript:void(0);">Share</a>
-                            <a class="dropdown-item" href="javascript:void(0);">Update</a>
+                            <a class="dropdown-item" href="javascript:void(0);">Обновить</a>
+                            <a class="dropdown-item" href="javascript:void(0);">Изменить</a>
+                            <a class="dropdown-item" href="javascript:void(0);">Удалить</a>
                           </div>
                         </div>
                       </div>
@@ -273,13 +273,13 @@
                         <div class="col-md-3 col-6">
                           <div class="d-flex align-items-center">
                             <div class="avatar">
-                              <div class="avatar-initial bg-primary rounded shadow">
-                                <i class="mdi mdi-trending-up mdi-24px"></i>
+                              <div class="avatar-initial bg-warning rounded shadow">
+                                <i class="mdi mdi-gamepad-circle mdi-24px"></i>
                               </div>
                             </div>
                             <div class="ms-3">
                               <div class="small mb-1">Пин 1</div>
-                              <h5 class="mb-0">245</h5>
+                              <h5 class="mb-0">Плохая связь</h5>
                             </div>
                           </div>
                         </div>
@@ -287,41 +287,42 @@
                           <div class="d-flex align-items-center">
                             <div class="avatar">
                               <div class="avatar-initial bg-success rounded shadow">
-                                <i class="mdi mdi-account-outline mdi-24px"></i>
+                                <i class="mdi mdi-gamepad-circle mdi-24px"></i>
                               </div>
                             </div>
                             <div class="ms-3">
                               <div class="small mb-1">Пин 2</div>
-                              <h5 class="mb-0">12.5</h5>
+                              <h5 class="mb-0">Подключено</h5>
                             </div>
                           </div>
                         </div>
                         <div class="col-md-3 col-6">
                           <div class="d-flex align-items-center">
                             <div class="avatar">
-                              <div class="avatar-initial bg-warning rounded shadow">
-                                <i class="mdi mdi-cellphone-link mdi-24px"></i>
+                              <div class="avatar-initial bg-success rounded shadow">
+                                <i class="mdi mdi-gamepad-circle mdi-24px"></i>
                               </div>
                             </div>
                             <div class="ms-3">
                               <div class="small mb-1">Пин 3</div>
-                              <h5 class="mb-0">1.54</h5>
+                              <h5 class="mb-0">Подключено</h5>
                             </div>
                           </div>
                         </div>
                         <div class="col-md-3 col-6">
                           <div class="d-flex align-items-center">
                             <div class="avatar">
-                              <div class="avatar-initial bg-info rounded shadow">
-                                <i class="mdi mdi-currency-usd mdi-24px"></i>
+                              <div class="avatar-initial bg-danger rounded shadow">
+                                <i class="mdi mdi-gamepad-circle mdi-24px"></i>
                               </div>
                             </div>
                             <div class="ms-3">
                               <div class="small mb-1">Пин 4</div>
-                              <h5 class="mb-0">88</h5>
+                              <h5 class="mb-0">Отключено</h5>
                             </div>
                           </div>
                         </div>
+                        <br><br><br><br>
                       </div>
                     </div>
                   </div>
@@ -344,7 +345,7 @@
                           <p class="mb-0">Максимальная влажность на этой неделе </p>
                         </div>
                         <div class="d-grid mt-3 mt-md-4">
-                          <button class="btn btn-primary" type="button">Details</button>
+                          <button class="btn btn-primary" type="button">Детали</button>
                         </div>
                       </div>
                     </div>
@@ -356,7 +357,7 @@
                 <div class="col-xl-8 col-md-6">
                   <div class="card">
                     <div class="card-header d-flex align-items-center justify-content-between">
-                      <h5 class="card-title m-0 me-2">Полив растения</h5>
+                      <h5 class="card-title m-0 me-2">Полив растения - номер пина №{{ m.plant_num }}</h5>
                       <div class="dropdown">
                         <button
                           class="btn p-0"
@@ -368,37 +369,34 @@
                           <i class="mdi mdi-dots-vertical mdi-24px"></i>
                         </button>
                         <div class="dropdown-menu dropdown-menu-end" aria-labelledby="totalEarnings">
-                          <a class="dropdown-item" href="javascript:void(0);">Обновить</a>
-                          <a class="dropdown-item" href="javascript:void(0);">Изменить</a>
-                          <a class="dropdown-item" href="javascript:void(0);">Удалить</a>
+                          <a class="dropdown-item" href="">Обновить</a>
+                          <a class="dropdown-item" href="">Изменить</a>
+                          <a class="dropdown-item" href="">Удалить</a>
                         </div>
                       </div>
                     </div>
                     <div class="card-body" method="post" enctype="multipart/form-data">
-                      <form method="post" enctype="multipart/form-data">
+                      <form method="post" id="waterForm" enctype="multipart/form-data">
                         {% csrf_token %}
                         <div class="form-floating form-floating-outline mb-4">
-                          <select name="plant_room" class="form-select" id="exampleFormControlSelect1" aria-label="Пин">
-                            <option selected="">Выберите пин</option>
-                              <option value="{{ room.name }}">{{ room.name }}</option>
-                          </select>
-                          <label for="exampleFormControlSelect1">Пин</label>
+                          <input name="plant"  type="hidden" value="{{ m.plant_num }}">
                         </div>
                         <div class="container">
                           <div class="tank">
                               <div class="water" id="water"></div>
-                              <div class="water-level" id="waterLevel">10 Litres</div>
+                              <div class="water-level" id="waterLevel">10 литров</div>
                           </div>
                   
                           <!-- Water level input positioned under the water tank -->
-                          <input type="range" min="0" max="20" value="10" id="waterLevelInput" oninput="setWaterLevel(this.value)">
+                          <input name="amount" type="range" step="1" min="1" max="500" value="10000" id="waterLevelInput" oninput="setWaterLevel(this.value)">
                         </div>
+                        <output></output>
 
                         <!--<div class="mb-4">
                           <label for="formFile" class="form-label">Фото</label>
                           <input name="image" class="form-control" type="file" id="formFile">
                         </div>-->
-                        <button type="submit" class="btn btn-primary waves-effect waves-light">Сохранить</button>
+                        <button type="submit" class="btn btn-primary">Полить</button>
                       </form>
                     </div>
                   </div>
@@ -407,6 +405,9 @@
               </div>
             </div>
             <!-- / Content -->
+
+            {% endfor %}
+
 
 
             <div class="content-backdrop fade"></div>
@@ -420,14 +421,39 @@
       <div class="layout-overlay layout-menu-toggle"></div>
     </div>
     <!-- / Layout wrapper -->
+    <script>
+      document.getElementById('waterForm').addEventListener('submit', function(event) {
+          event.preventDefault();  // Prevent default form submission
 
+          // Get form data
+          const formData = new FormData(this);
+
+          // Send POST request using Axios
+          axios.post('/watering/', formData)
+              .then(response => {
+                  if (response.data.success) {
+                      // Handle success
+                      alert('Полив начался!');
+                  } else {
+                      // Handle failure
+                      alert('Что то пошло не так!');
+                  }
+              })
+              .catch(error => {
+                  console.error('Error:', error);
+                  alert('An error occurred while watering.');
+              });
+        });
+
+
+    </script>
     <style>
       /* CSS styles */
       
 
       .tank {
-          width: 200px; /* Width of the tank */
-          height: 300px; /* Height of the tank */
+          width: 150px; /* Width of the tank */
+          height: 220px; /* Height of the tank */
           border: 3px solid #333;
           border-radius: 10px; /* Border radius for the tank */
           position: relative;
@@ -491,15 +517,15 @@
       function setWaterLevel(litres) {
           const water = document.getElementById('water');
           const waterLevelText = document.getElementById('waterLevel');
-          const tankHeight = 300; // Height of the tank in pixels
+          const tankHeight = 220; // Height of the tank in pixels
           const tankVolume = 20; // Total volume of the tank in liters
           const waterHeight = (litres / tankVolume) * tankHeight;
-          water.style.height = waterHeight + 'px';
-          waterLevelText.textContent = litres + ' Litres';
+          water.style.height = waterHeight/100 + 'px';
+          waterLevelText.textContent = litres + ' мл';
       }
 
       // Initial setup: Set water level to 10 Litres
-      setWaterLevel(10);
+      setWaterLevel(500);
     </script>
     <!-- Vendors JS -->
     <script src="{% static 'admin/vendor/libs/apex-charts/apexcharts.js'%}"></script>

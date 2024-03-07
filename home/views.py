@@ -15,8 +15,8 @@ from .forms import MyForm
 
 def names(request):
     #pull data from third party rest api
-    #response = requests.get('http://10.40.9.25:8001/api/v2/get/all/plant')
-    response = requests.get('http://70.70.0.68:8001/api/v2/get/all/plant')
+    response = requests.get('http://10.40.9.25:8001/api/v2/get/all/plant')
+    #response = requests.get('http://70.70.0.68:8001/api/v2/get/all/plant')
 
     #convert reponse data into json
     names = response.json()
@@ -25,17 +25,6 @@ def names(request):
 
 
 from django.http import JsonResponse
-
-def water(request):
-    if request.method == 'POST':
-        # Process form data and send POST request to FastAPI as before
-        
-        if response.status_code == 200:
-            return JsonResponse({'success': True})  # Return JSON response indicating success
-        else:
-            return JsonResponse({'success': False})  # Return JSON response indicating failure
-    else:
-        return JsonResponse({'error': 'Method not allowed'}, status=405)  # Return JSON response for invalid method
 
 
 def water(request):
