@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.views.generic import ListView
-from .models import Category,Plant,Watering
+from .models import Room,Plant,Watering
 from django.db.models import Count
 from django.db.models import Q
 import django_crontab
@@ -58,25 +58,11 @@ def water(request):
     return render(request, 'api.html', {'form': form})
 # cron.py
 
-def my_cron_job():
-        
-        url = f'http://10.40.9.25:8001/watering/1?water=200'
-        
-        response = requests.post(url)
-        print(url)
-        print(response.status_code)
-
-        if response.status_code == 200:
-            print("Plant watered successfully")
-        else:
-            print("Error watering plant")
-
-
    
 
 
 def Home(request):
-    query = Category.objects.annotate(count=Count('category'))
+    query = Room.objects.annotate(count=Count('category'))
     return render(request, 'index.html', {'query': query})
 
 def Base(request, pk):

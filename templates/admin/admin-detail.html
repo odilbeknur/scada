@@ -81,7 +81,7 @@
             <li class="menu-header fw-medium mt-4"><span class="menu-header-text">Растения и Устройства</span></li>
             <!-- Form Validation -->
             <li class="menu-item">
-              <a href="{% url 'admin-plants'%}" target="_blank" class="menu-link">
+              <a href="{% url 'admin-plants'%}"  class="menu-link">
                 <i class="menu-icon tf-icons mdi mdi-sprout"></i>
                 <div data-i18n="Form Validation">Растения</div>
                 <div class="badge bg-label-primary fs-tiny rounded-pill ms-auto">5</div>
@@ -89,7 +89,7 @@
             </li>
             <!-- Data Tables -->
             <li class="menu-item">
-              <a href="#" target="_blank" class="menu-link">
+              <a href="{% url 'admin-devices'%}"  class="menu-link">
                 <i class="menu-icon tf-icons mdi mdi-grid"></i>
                 <div data-i18n="Datatables">Устройства</div>
                 <div class="badge bg-label-primary fs-tiny rounded-pill ms-auto">5</div>
@@ -100,7 +100,7 @@
             <li class="menu-item">
               <a
                 href="{% url 'plant-create'%}"
-                target="_blank"
+                
                 class="menu-link">
                 <i class="menu-icon tf-icons mdi mdi-seed-plus-outline"></i>
                 <div>Добавить растение</div>
@@ -108,8 +108,8 @@
             </li>
             <li class="menu-item">
               <a
-                href="{% url 'category-create' %}"
-                target="_blank"
+                href="{% url 'room-create' %}"
+                
                 class="menu-link">
                 <i class="menu-icon tf-icons mdi mdi-plus-box"></i>
                 <div>Добавить комнату</div>
@@ -118,7 +118,7 @@
             <li class="menu-item">
               <a
                 href="{% url 'responsible-create' %}"
-                target="_blank"
+                
                 class="menu-link">
                 <i class="menu-icon tf-icons mdi mdi-account-plus"></i>
                 <div>Добавить ответственного</div>
@@ -401,16 +401,54 @@
                     </div>
                   </div>
                 </div>
-
+                 <!-- Data Tables -->
+                 <div class="col-12">
+                  <div class="card">
+                    <div class="table-responsive">
+                      <table class="table">
+                        <thead class="table-light">
+                          <tr>
+                            <th class="text-truncate">ID</th>
+                            <th class="text-truncate">Название</th>
+                            <th class="text-truncate">Влажность</th>
+                            <th class="text-truncate">Объем(макс)</th>
+                            <th class="text-truncate">Объем(дневнонй)</th>
+                            <th class="text-truncate">Статус</th>
+                            <th class="text-truncate">Настройки</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td class="text-truncate">{{ m.plant_num }}</td>
+                            <td class="text-truncate">{{ m.plant_name }}</td>                            
+                            <td class="text-truncate">{{ m.soil_value }}</td>
+                            <td class="text-truncate">
+                              {{ m.capacity}}
+                            </td>
+                            <td class="text-truncate" >{{ m.capacity }}</td>
+                            {% if m.soilpin_status == 'В сети' %}
+                            <td><span class="badge bg-label-success rounded-pill">{{ m.soilpin_status }}</span></td>
+                            {% elif m.soilpin_status == 'Не в сети' %}
+                            <td><span class="badge bg-label-danger rounded-pill">{{ m.soilpin_status }}</span></td>
+                            {% endif %}
+                            <td class="text-truncate"><i class="mdi mdi-cog-outline text-warning mdi-24px me-1"></i></td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+                <!--/ Data Tables -->
               </div>
             </div>
             <!-- / Content -->
 
             {% endfor %}
-
+            
 
 
             <div class="content-backdrop fade"></div>
+            
           </div>
           <!-- Content wrapper -->
         </div>

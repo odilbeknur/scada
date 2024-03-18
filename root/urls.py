@@ -1,13 +1,14 @@
 from multiprocessing.spawn import import_main_path
 from django.urls import path
-from .views import Admin_index, Admin_plants, CategoryCreateView, baseview, PlantCreateView, ProductDetailView, ProductUpdateView, ProductDeleteView, ResponsibleCreateView
+from .views import Admin_index, Admin_plant, Admin_device, RoomCreateView, baseview, PlantCreateView, ProductDetailView, ProductUpdateView, ProductDeleteView, ResponsibleCreateView
 from . import views
 
 urlpatterns = [
     path('admin-index/', Admin_index, name='admin-index'),
     path('watering/', views.water, name='watering'),
-    path('admin-plants/', Admin_plants, name='admin-plants'),
-    path('admin-index/category-create', CategoryCreateView.as_view(), name='category-create'),  
+    path('admin-plants/', Admin_plant, name='admin-plants'),
+    path('admin-devices/', Admin_device, name='admin-devices'),
+    path('admin-index/room-create', RoomCreateView.as_view(), name='room-create'),  
     path('admin-index/poka-base/<int:pk>', baseview, name='base-view'),
     path('admin-index/add-plant', PlantCreateView.as_view(), name='plant-create'),
     path('admin-index/poka-base/<int:pk>/admin-detail-of-product', ProductDetailView, name='product-detail'),

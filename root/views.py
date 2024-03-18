@@ -1,10 +1,10 @@
 from django.shortcuts import redirect, render, get_object_or_404
 from django.urls import reverse_lazy, reverse
 from django import forms
-from home.models import Category, Plant, Responsible
+from home.models import Room, Plant, Responsible
 from django.views.generic import ListView, CreateView
 from django.contrib.auth.mixins import LoginRequiredMixin
-from .forms import CategoryCreateForm, PlantCreateForm, ProductUpdateForm, ResponsibleCreateForm, ProductDetailUpdateForm
+from .forms import RoomCreateForm, PlantCreateForm, ProductUpdateForm, ResponsibleCreateForm, ProductDetailUpdateForm
 import random
 from django.db.models import Count, Q
 from django.contrib import messages
@@ -15,11 +15,13 @@ def Admin_index(request):
     categories = Plant.objects.annotate(count=Count('plant_num'))
     return render(request, 'admin/admin-index.html', {'queryset': categories})
 
-def Admin_plants(request):
+def Admin_plant(request):
     plants = Plant.objects.annotate(count=Count('plant_num'))
     return render(request, 'admin/admin-plants.html', {'queryset': plants})
 
-
+def Admin_device(request):
+    categories = Plant.objects.annotate(count=Count('plant_num'))
+    return render(request, 'admin/admin-device.html', {'queryset': categories})
 
 def water(request):
     if request.method == 'POST':
@@ -34,12 +36,12 @@ def water(request):
 
 
 
-class CategoryCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
-    model = Category
-    form_class = CategoryCreateForm
-    template_name = 'admin/category-create.html'
+class RoomCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
+    model = Room
+    form_class = RoomCreateForm
+    template_name = 'admin/room-create.html'
     login_url = 'login'
-    success_url = reverse_lazy('category-create')
+    success_url = reverse_lazy('room    -create')
     success_message = "Комната успешно добавлена"
 
     def form_valid(self, form):
@@ -51,7 +53,7 @@ class CategoryCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
             return self.form_invalid(form)
 
 
-class ResponsibleCreateView(LoginRequiredMixin, CreateView):
+class ResponsibleCreateView(LoginRequiredMixin,SuccessMessageMixin, CreateView):
     model = Responsible
     form_class = ResponsibleCreateForm
     template_name = 'admin/responsible-create.html'
@@ -67,29 +69,31 @@ class ResponsibleCreateView(LoginRequiredMixin, CreateView):
                 messages.error(self.request, f'Error: {e}')
                 return self.form_invalid(form)
 
-
-
-
 def baseview(request, pk):
     query = Plant.objects.filter(category_id__id=pk)
-    get_cat = Category.objects.filter(id=pk)
+    get_cat = Room.objects.filter(id=pk)
     return render(request, 'admin/admin-base.html', {'query': query, 'get_cat': get_cat})
 
-class PlantCreateView(LoginRequiredMixin, CreateView):
+class PlantCreateView(LoginRequiredMixin,SuccessMessageMixin, CreateView):
     model = Plant
     form_class = PlantCreateForm
     template_name = 'admin/plant-create.html'
     login_url = 'login'
     success_url = reverse_lazy('plant-create')
+    success_message = "Растение успешно добавлено"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['plant_room'] = Category.objects.all()
+        context['plant_room'] = Room.objects.all()
         return context
 
     def form_valid(self, form):
-        form.instance.author = self.request.user
-        return super().form_valid(form)     
+         form.instance.author = self.request.user
+         try:
+                return super().form_valid(form)
+         except Exception as e:
+                messages.error(self.request, f'Error: {e}')
+                return self.form_invalid(form)
 
 
 def ProductDetailView(request, pk):

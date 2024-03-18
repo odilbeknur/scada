@@ -80,7 +80,7 @@
             <li class="menu-header fw-medium mt-4"><span class="menu-header-text">Растения и Устройства</span></li>
             <!-- Form Validation -->
             <li class="menu-item active">
-              <a href="{% url 'admin-plants'%}" target="_blank" class="menu-link">
+              <a href="{% url 'admin-plants'%}"  class="menu-link">
                 <i class="menu-icon tf-icons mdi mdi-sprout"></i>
                 <div data-i18n="Form Validation">Растения</div>
                 <div class="badge bg-label-primary fs-tiny rounded-pill ms-auto">5</div>
@@ -88,7 +88,7 @@
             </li>
             <!-- Data Tables -->
             <li class="menu-item">
-              <a href="#" target="_blank" class="menu-link">
+              <a href="{% url 'admin-devices'%}"  class="menu-link">
                 <i class="menu-icon tf-icons mdi mdi-grid"></i>
                 <div data-i18n="Datatables">Устройства</div>
                 <div class="badge bg-label-primary fs-tiny rounded-pill ms-auto">5</div>
@@ -99,7 +99,7 @@
             <li class="menu-item">
               <a
                 href="{% url 'plant-create'%}"
-                target="_blank"
+                
                 class="menu-link">
                 <i class="menu-icon tf-icons mdi mdi-seed-plus-outline"></i>
                 <div>Добавить растение</div>
@@ -107,8 +107,8 @@
             </li>
             <li class="menu-item">
               <a
-                href="{% url 'category-create' %}"
-                target="_blank"
+                href="{% url 'room-create' %}"
+                
                 class="menu-link">
                 <i class="menu-icon tf-icons mdi mdi-plus-box"></i>
                 <div>Добавить комнату</div>
@@ -117,7 +117,7 @@
             <li class="menu-item">
               <a
                 href="{% url 'responsible-create' %}"
-                target="_blank"
+                
                 class="menu-link">
                 <i class="menu-icon tf-icons mdi mdi-account-plus"></i>
                 <div>Добавить ответственного</div>

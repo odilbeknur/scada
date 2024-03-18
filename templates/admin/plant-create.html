@@ -80,7 +80,7 @@
             <li class="menu-header fw-medium mt-4"><span class="menu-header-text">Растения и Устройства</span></li>
             <!-- Form Validation -->
             <li class="menu-item">
-              <a href="{% url 'admin-plants'%}" target="_blank" class="menu-link">
+              <a href="{% url 'admin-plants'%}"  class="menu-link">
                 <i class="menu-icon tf-icons mdi mdi-sprout"></i>
                 <div data-i18n="Form Validation">Растения</div>
                 <div class="badge bg-label-primary fs-tiny rounded-pill ms-auto">5</div>
@@ -88,7 +88,7 @@
             </li>
             <!-- Data Tables -->
             <li class="menu-item">
-              <a href="#" target="_blank" class="menu-link">
+              <a href="{% url 'admin-devices'%}"  class="menu-link">
                 <i class="menu-icon tf-icons mdi mdi-grid"></i>
                 <div data-i18n="Datatables">Устройства</div>
                 <div class="badge bg-label-primary fs-tiny rounded-pill ms-auto">5</div>
@@ -99,7 +99,7 @@
             <li class="menu-item active">
               <a
                 href="{% url 'plant-create' %}"
-                target="_blank"
+                
                 class="menu-link">
                 <i class="menu-icon tf-icons mdi mdi-seed-plus-outline"></i>
                 <div>Добавить растение</div>
@@ -107,8 +107,8 @@
             </li>
             <li class="menu-item">
               <a
-                href="{% url 'category-create' %}"
-                target="_blank"
+                href="{% url 'room-create' %}"
+                
                 class="menu-link">
                 <i class="menu-icon tf-icons mdi mdi-plus-box"></i>
                 <div>Добавить комнату</div>
@@ -117,7 +117,7 @@
             <li class="menu-item">
               <a
                 href="{% url 'responsible-create' %}"
-                target="_blank"
+                
                 class="menu-link">
                 <i class="menu-icon tf-icons mdi mdi-account-plus"></i>
                 <div>Добавить ответственного</div>
@@ -222,12 +222,12 @@
               <h4 class="py-3 mb-4"><span class="text-muted fw-light">Создание/</span> Растение</h4>
 
               {% if messages %}
-                  {% for message in messages %}
-                  <div class="alert alert-{{ message.tags }} alert-dismissible" role="alert">
-                      {{ message }}
-                      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                  </div>
-                  {% endfor %}
+              {% for message in messages %}
+                <div class="alert alert-{{ message.tags }} alert-dismissible" role="alert">
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+              {% endfor %}
               {% endif %}
               
 
@@ -240,58 +240,10 @@
                       <small class="text-muted float-end">№1</small>
                     </div>
                     <div class="card-body" method="post" enctype="multipart/form-data">
-                      <form method="post" enctype="multipart/form-data">
+                      <form method="post" enctype="multipart/form-data" id="myForm">
                         {% csrf_token %}
-                        <div class="form-floating form-floating-outline mb-4">
-                          <select name="plant_room" class="form-select" id="exampleFormControlSelect1" aria-label="Комната">
-                            <option selected="">Выберите комнату</option>
-                            {% for room in plant_room %}
-                              <option value="{{ room.name }}">{{ room.name }}</option>
-                            {% endfor %}
-                          </select>
-                          <label for="exampleFormControlSelect1">Комната</label>
-                        </div>
-                        <div class="form-floating form-floating-outline mb-4">
-                          <input name="plant_name" type="text" class="form-control" id="basic-default-fullname" placeholder="Название">
-                          <label for="basic-default-fullname">Название</label>
-                        </div>
-                        <div class="mb-4">
-                          <label for="formFile" class="form-label">Загрузите изображение</label>
-                          <input name="plant_image" class="form-control" type="file" id="formFile">
-                        </div>
-                        <div class="form-floating form-floating-outline mb-4">
-                          <input name="plant_num" type="text" class="form-control" id="basic-default-fullname" placeholder="ID номер">
-                          <label for="basic-default-fullname">ID номер</label>
-                        </div>
-                        <div class="form-floating form-floating-outline mb-4">
-                          <input name="capacity" type="text" class="form-control" id="basic-default-fullname" placeholder="Объем">
-                          <label for="basic-default-fullname">Объем</label>
-                        </div>
-                        <div class="form-floating form-floating-outline mb-4">
-                          <input name="soil_value" type="text" class="form-control" id="basic-default-fullname" placeholder="Влажность">
-                          <label for="basic-default-fullname">Влажность</label>
-                        </div>
-                        <div class="form-floating form-floating-outline mb-4">
-                          <input name="soilpin_num" type="text" class="form-control" id="basic-default-fullname" placeholder="Датчик влажности (pin)">
-                          <label for="basic-default-fullname">Датчик влажности (pin)</label>
-                        </div>
-                        <div class="form-floating form-floating-outline mb-4">
-                          <input name="soilpin_status" type="text" class="form-control" id="basic-default-fullname" placeholder="Датчик влажности (статус)">
-                          <label for="basic-default-fullname">Датчик влажности (статус)</label>
-                        </div>
-                        <div class="form-floating form-floating-outline mb-4">
-                          <input name="pomp_pin" type="text" class="form-control" id="basic-default-fullname" placeholder="Насос (pin)">
-                          <label for="basic-default-fullname">Насос (pin)</label>
-                        </div>
-                        <div class="form-floating form-floating-outline mb-4">
-                          <input name="pomp_status" type="text" class="form-control" id="basic-default-fullname" placeholder="Насос (статус)">
-                          <label for="basic-default-fullname">Насос (статус)</label>
-                        </div>
-                        <div class="form-floating form-floating-outline mb-4">
-                          <input name="description" type="text" class="form-control" id="basic-default-fullname" placeholder="Описание">
-                          <label for="basic-default-fullname">Описание</label>
-                        </div>
-                        <button type="submit" class="btn btn-primary waves-effect waves-light">Сохранить</button>
+                        {% include 'admin\form.html' %}
+
                       </form>
                     </div>
                   </div>
@@ -312,7 +264,6 @@
     <!-- / Layout wrapper -->
 
       
-
     <!-- Core JS -->
     <!-- build:js assets/vendor/js/core.js -->
     <script src="{% static 'admin/vendor/libs/jquery/jquery.js'%}"></script>

@@ -1,6 +1,6 @@
 from dataclasses import fields
 from django import forms
-from home.models import Category, Plant, Responsible
+from home.models import Room, Plant, Responsible
 from django.core.exceptions import ValidationError
 import requests
 

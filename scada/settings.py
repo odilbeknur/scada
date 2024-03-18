@@ -33,6 +33,7 @@ ALLOWED_HOSTS = ['10.40.9.25', 'localhost', '127.0.0.1']
 # Application definition
 PROJECT_APPS = [
     'home',
+    'monitoring',
     'root',
 ]
 
@@ -89,7 +90,8 @@ DATABASES = {
 
 
 CRONJOBS = [
-    ("/59 * * * * ", "scada.cron.my_cron_job")
+    ("/59 * * * * ", "scada.cron.my_cron_job"),
+    ("/1 * * * * ", "monitoring.cron.fetch")
 ]
 
 # Password validation
