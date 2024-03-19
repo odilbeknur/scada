@@ -2,6 +2,7 @@ from django.shortcuts import redirect, render, get_object_or_404
 from django.urls import reverse_lazy, reverse
 from django import forms
 from home.models import Room, Plant, Responsible
+from monitoring.models import Report
 from django.views.generic import ListView, CreateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .forms import RoomCreateForm, PlantCreateForm, ProductUpdateForm, ResponsibleCreateForm, ProductDetailUpdateForm
@@ -20,7 +21,7 @@ def Admin_plant(request):
     return render(request, 'admin/admin-plants.html', {'queryset': plants})
 
 def Admin_device(request):
-    categories = Plant.objects.annotate(count=Count('plant_num'))
+    categories = Report.objects.annotate(count=Count('id'))
     return render(request, 'admin/admin-device.html', {'queryset': categories})
 
 def water(request):

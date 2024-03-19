@@ -242,11 +242,20 @@
 
                         <tr>
                           <td>
-                            <span class="fw-medium">{{ m.plant_name}}</span>
+                            <span class="fw-medium">{{ m.name}}</span>
                           </td>
-                          <td>{{ m.plant_num}}</td>
-                          <td>{{ m.plant_num}}</td>
-                          <td><span class="badge rounded-pill bg-label-primary me-1">{{ m.description}}</span></td>
+                          <td>{{ m.soil_value}}</td>
+                          {% if m.soilpin_status == "False" %}
+                          <td><span class="badge rounded-pill bg-label-danger me-1">Отключен</span></td>
+                          {% elif  m.soilpin_status == "True" %}
+                          <td><span class="badge rounded-pill bg-label-primary me-1">Подключен</span></td>
+                          {% endif %}
+                          
+                          {% if m.pump_pin == "False" %}
+                          <td><span class="badge rounded-pill bg-label-danger me-1">Отключен</span></td>
+                          {% elif  m.pump_pin == "True" %}
+                          <td><span class="badge rounded-pill bg-label-primary me-1">Подключен</span></td>
+                          {% endif %}
                           <td>
                             <div class="dropdown">
                               <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">

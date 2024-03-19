@@ -90,8 +90,8 @@ DATABASES = {
 
 
 CRONJOBS = [
-    ("/59 * * * * ", "scada.cron.my_cron_job"),
-    ("/1 * * * * ", "monitoring.cron.fetch")
+    #("* * * * * ", "scada.cron.my_cron_job"),
+    ("* * * * * ", "scada.cron.fetch_to_report")
 ]
 
 # Password validation
